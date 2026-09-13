@@ -22,13 +22,34 @@ wireWhatsApp();load();
 (function(){
   var toggle=document.getElementById('chatToggle'), panel=document.getElementById('chatPanel'), close=document.getElementById('chatClose');
   var messages=document.getElementById('chatMessages'), form=document.getElementById('chatForm'), input=document.getElementById('chatInput');
-  function add(text,kind){var el=document.createElement('div');el.className='chat-bubble '+kind;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight}
-  function answer(text){var t=text.toLowerCase(), reply='Posso orientar sobre planos, teste, compatibilidade ou suporte. Qual desses você precisa?';if(t.indexOf('plano')>=0)reply='Os planos aparecem na seção Planos. Escolha um período e fale pelo WhatsApp para confirmar a disponibilidade.';else if(t.indexOf('teste')>=0)reply='O teste depende da disponibilidade e da compatibilidade do seu aparelho. Clique em Pedir teste e a equipe confirma.';else if(t.indexOf('suporte')>=0||t.indexOf('ajuda')>=0)reply='Claro. Envie o modelo do aparelho e uma breve descrição. Se preferir, abra o WhatsApp para falar com a equipe.';else if(t.indexOf('aparelho')>=0||t.indexOf('tv')>=0)reply='Atendemos Smart TV, TV Box, celular, tablet e computador compatíveis. Diga o modelo para conferirmos.';add(reply,'bot')}
+  function add(text,kind){var el=document.createElement('div');el.className='chat-bubble '+kind;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
   function openChat(){panel.hidden=false;toggle.setAttribute('aria-expanded','true')}
   function closeChat(){panel.hidden=true;toggle.setAttribute('aria-expanded','false')}
+  function showContact(){
+    if(document.getElementById('chatContact'))return;
+    var box=document.createElement('div');box.id='chatContact';box.className='chat-contact';
+    box.innerHTML='<div class="chat-contact-title">Quer que a equipe continue com você?</div><input id="chatName" placeholder="Seu nome" autocomplete="name" required><input id="chatPhone" placeholder="Seu WhatsApp" inputmode="tel" autocomplete="tel" required><label><input id="chatConsent" type="checkbox" required> Autorizo o contato da equipe.</label><button type="button" id="chatSendContact">Enviar contato</button><div id="chatContactStatus" role="status"></div>';
+    messages.appendChild(box);messages.scrollTop=messages.scrollHeight;
+    document.getElementById('chatSendContact').addEventListener('click',function(){
+      var name=document.getElementById('chatName').value.trim(),phone=document.getElementById('chatPhone').value.trim(),consent=document.getElementById('chatConsent').checked,status=document.getElementById('chatContactStatus'),button=this;
+      if(name.length<2||phone.replace(/\D/g,'').length<8||!consent){status.textContent='Preencha nome, WhatsApp e autorize o contato.';return}
+      button.disabled=true;button.textContent='ENVIANDO...';status.textContent='';
+      fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:name,whatsapp:phone,servico:'Atendimento automático',mensagem:'Contato enviado pelo chat com consentimento.'})}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(){status.textContent='Contato enviado. A equipe continuará pelo WhatsApp.';add('Perfeito, '+name+'! Recebemos seu contato.','bot');box.remove()}).catch(function(){status.textContent='Não foi possível enviar agora. Use o botão WhatsApp.'}).finally(function(){button.disabled=false;button.textContent='Enviar contato'});
+    });
+  }
+  function reply(text){
+    var t=String(text||'').toLowerCase(),reply='Posso ajudar com planos, teste, compatibilidade ou suporte. Escolha uma opção abaixo.';
+    if(t.indexOf('plano')>=0)reply='Os planos aparecem na seção Planos. Posso registrar seu contato para a equipe confirmar a melhor opção.';
+    else if(t.indexOf('teste')>=0)reply='O teste depende da disponibilidade e da compatibilidade do seu aparelho. Vou registrar seu pedido para a equipe confirmar.';
+    else if(t.indexOf('suporte')>=0||t.indexOf('ajuda')>=0)reply='Claro. Informe o modelo do aparelho e o que aconteceu. A equipe recebe seu contato e continua o atendimento.';
+    else if(t.indexOf('aparelho')>=0||t.indexOf('tv')>=0||t.indexOf('compat')>=0)reply='Atendemos Smart TV, TV Box, celular, tablet e computador compatíveis. Envie o modelo para conferirmos.';
+    else if(t.indexOf('humano')>=0||t.indexOf('pessoa')>=0||t.indexOf('whatsapp')>=0){reply='Vou encaminhar você para o atendimento humano no WhatsApp.';setTimeout(function(){window.open(wa('Olá! Vim pelo atendimento automático da JSTech Prime e preciso falar com a equipe.'),'_blank')},500)}
+    var typing=add('Digitando...','bot typing');setTimeout(function(){typing.remove();add(reply,'bot');if(t.indexOf('humano')<0&&t.indexOf('pessoa')<0)showContact()},420);
+  }
   toggle&&toggle.addEventListener('click',function(){panel.hidden?openChat():closeChat()});close&&close.addEventListener('click',closeChat);
-  document.querySelectorAll('[data-chat]').forEach(function(b){b.addEventListener('click',function(){var text=b.textContent;add(text,'user');answer(text)})});
-  form&&form.addEventListener('submit',function(e){e.preventDefault();var text=input.value.trim();if(!text)return;add(text,'user');input.value='';setTimeout(function(){answer(text)},180)});
+  document.querySelectorAll('[data-chat]').forEach(function(b){b.addEventListener('click',function(){openChat();add(b.textContent,'user');reply(b.dataset.chat||b.textContent)})});
+  form&&form.addEventListener('submit',function(e){e.preventDefault();var text=input.value.trim();if(!text)return;add(text,'user');input.value='';reply(text)});
+  setTimeout(function(){if(panel&&panel.hidden)openChat()},2400);
 })();
 (function(){
   var PROMO_API='https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-prime-site';
