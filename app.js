@@ -31,8 +31,9 @@ wireWhatsApp();load();
   form&&form.addEventListener('submit',function(e){e.preventDefault();var text=input.value.trim();if(!text)return;add(text,'user');input.value='';setTimeout(function(){answer(text)},180)});
 })();
 (function(){
+  var PROMO_API='https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-prime-site';
   var form=document.getElementById('promoForm');if(!form)return;var status=document.getElementById('promoStatus');
   form.addEventListener('submit',function(e){e.preventDefault();var email=(new FormData(form).get('email')||'').toString().trim().toLowerCase();if(!email){status.textContent='Informe um e-mail válido.';return}var button=form.querySelector('button');button.disabled=true;button.textContent='CADASTRANDO...';status.textContent='';
-    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:'Lista de promoções',whatsapp:'email:'+email,servico:'Promoções',mensagem:'Consentimento confirmado para receber novidades.'})}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(){status.textContent='Cadastro recebido. Você só receberá mensagens com seu consentimento.';form.reset()}).catch(function(){status.textContent='Não foi possível cadastrar agora. Tente novamente ou fale pelo WhatsApp.'}).finally(function(){button.disabled=false;button.textContent='QUERO RECEBER →'});
+    fetch(PROMO_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:'Lista de promoções',whatsapp:'email:'+email,servico:'Promoções',mensagem:'Consentimento confirmado para receber novidades.'})}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(){status.textContent='Cadastro recebido. Você só receberá mensagens com seu consentimento.';form.reset()}).catch(function(){status.textContent='Não foi possível cadastrar agora. Tente novamente ou fale pelo WhatsApp.'}).finally(function(){button.disabled=false;button.textContent='QUERO RECEBER →'});
   });
 })();
