@@ -59,8 +59,12 @@ const form=document.getElementById('leadForm');form?.addEventListener('submit',a
 wireWhatsApp();load();
 
 (function(){
-  var toggle=document.getElementById('chatToggle'), panel=document.getElementById('chatPanel'), close=document.getElementById('chatClose'), manuallyClosed=false;
+  var toggle=document.getElementById('chatToggle'), panel=document.getElementById('chatPanel'), close=document.getElementById('chatClose');
   var messages=document.getElementById('chatMessages'), form=document.getElementById('chatForm'), input=document.getElementById('chatInput');
+  if(!toggle||!panel||!close||!messages||!form||!input)return;
+  if(panel.dataset.chatBound==='true')return;
+  panel.dataset.chatBound='true';
+  var manuallyClosed=false;
   function add(text,kind){var el=document.createElement('div');el.className='chat-bubble '+kind;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
   function openChat(){manuallyClosed=false;panel.hidden=false;panel.removeAttribute('hidden');toggle.setAttribute('aria-expanded','true')}
   function closeChat(){manuallyClosed=true;panel.hidden=true;panel.setAttribute('hidden','');toggle.setAttribute('aria-expanded','false')}
@@ -77,18 +81,20 @@ wireWhatsApp();load();
     });
   }
   function reply(text){
-    var t=String(text||'').toLowerCase(),reply='Posso ajudar com planos, teste, compatibilidade ou suporte. Escolha uma opção abaixo.';
-    if(t.indexOf('plano')>=0)reply='Os planos aparecem na seção Planos. Posso registrar seu contato para a equipe confirmar a melhor opção.';
-    else if(t.indexOf('teste')>=0)reply='O teste depende da disponibilidade e da compatibilidade do seu aparelho. Vou registrar seu pedido para a equipe confirmar.';
-    else if(t.indexOf('suporte')>=0||t.indexOf('ajuda')>=0)reply='Claro. Informe o modelo do aparelho e o que aconteceu. A equipe recebe seu contato e continua o atendimento.';
-    else if(t.indexOf('aparelho')>=0||t.indexOf('tv')>=0||t.indexOf('compat')>=0)reply='Atendemos Smart TV, TV Box, celular, tablet e computador compatíveis. Envie o modelo para conferirmos.';
-    else if(t.indexOf('humano')>=0||t.indexOf('pessoa')>=0||t.indexOf('whatsapp')>=0){reply='Vou encaminhar você para o atendimento humano no WhatsApp.';setTimeout(function(){window.open(wa('Olá! Vim pelo atendimento automático da JSTech Prime e preciso falar com a equipe.'),'_blank')},500)}
-    var typing=add('Digitando...','bot typing');setTimeout(function(){typing.remove();add(reply,'bot');if(t.indexOf('humano')<0&&t.indexOf('pessoa')<0)showContact()},420);
+    var t=String(text||'').toLowerCase(),answer='Posso ajudar com planos, teste, compatibilidade ou suporte. Escolha uma opção abaixo.';
+    if(t.indexOf('plano')>=0)answer='Os planos aparecem na seção Planos. Posso registrar seu contato para a equipe confirmar a melhor opção.';
+    else if(t.indexOf('teste')>=0)answer='O teste depende da disponibilidade e da compatibilidade do seu aparelho. Vou registrar seu pedido para a equipe confirmar.';
+    else if(t.indexOf('suporte')>=0||t.indexOf('ajuda')>=0)answer='Claro. Informe o modelo do aparelho e o que aconteceu. A equipe recebe seu contato e continua o atendimento.';
+    else if(t.indexOf('aparelho')>=0||t.indexOf('tv')>=0||t.indexOf('compat')>=0)answer='Atendemos Smart TV, TV Box, celular, tablet e computador compatíveis. Envie o modelo para conferirmos.';
+    else if(t.indexOf('humano')>=0||t.indexOf('pessoa')>=0||t.indexOf('whatsapp')>=0){answer='Vou encaminhar você para o atendimento humano no WhatsApp.';setTimeout(function(){window.open(wa('Olá! Vim pelo atendimento automático da JSTech Prime e preciso falar com a equipe.'),'_blank')},500)}
+    var typing=add('Digitando...','bot typing');setTimeout(function(){if(typing.parentNode)typing.remove();add(answer,'bot');if(t.indexOf('humano')<0&&t.indexOf('pessoa')<0)showContact()},420);
   }
-  toggle&&toggle.addEventListener('click',function(){panel.hidden?openChat():closeChat()});close&&close.addEventListener('click',closeChat);
-  document.querySelectorAll('[data-chat]').forEach(function(b){b.addEventListener('click',function(){openChat();add(b.textContent,'user');reply(b.dataset.chat||b.textContent)})});
-  form&&form.addEventListener('submit',function(e){e.preventDefault();var text=input.value.trim();if(!text)return;add(text,'user');input.value='';reply(text)});
-  setTimeout(function(){if(panel&&panel.hidden&&!manuallyClosed)openChat()},2400);
+  openChat();
+  toggle.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();panel.hidden?openChat():closeChat()});
+  close.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();closeChat()});
+  document.querySelectorAll('[data-chat]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();openChat();add(b.textContent,'user');reply(b.dataset.chat||b.textContent)})});
+  form.addEventListener('submit',function(e){e.preventDefault();var text=input.value.trim();if(!text)return;add(text,'user');input.value='';reply(text)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!panel.hidden)closeChat()});
 })();
 (function(){
   var PROMO_API='https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-prime-site';
