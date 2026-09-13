@@ -80,7 +80,7 @@ wireWhatsApp();load();
     var recommendation=/(indica|indico|recomenda|recomendo|melhor|qual escolher|o que.*(serve|indica)|sugere|sugestão|sugestao)/.test(t);
     var iptvDevice=/(iptv|smart tv|tv box|celular|computador|android tv|fire tv|chromecast|roku|iphone|tablet|notebook|internet)/.test(t);
     var receiver=/(satélite|satelite|cabo|receptor|antena)/.test(t);
-    if(greeting&&raw.split(/\s+/).length<=4)answer='Oi! Para eu te indicar certinho, qual aparelho você usa: Smart TV, TV Box, celular, computador ou receptor?';
+    if(greeting&&raw.split(/\s+/).length<=4)answer='Oi! Como posso ajudar você hoje? Você pode perguntar sobre planos, testes, aparelhos ou configuração.';
     else if(recommendation&&!iptvDevice&&!receiver)answer='Eu indico assim: se você usa Smart TV, TV Box, celular, tablet ou computador com internet, o IPTV é o mais prático. Se já usa receptor com antena ou cabo, escolha TV Satélite/Cabo. Qual aparelho você tem?';
     else if(receiver){answer='Para receptor com antena ou cabo, a opção indicada é TV Satélite/Cabo. Me diga se o seu receptor é de satélite ou de cabo para eu orientar melhor.'}
     else if(iptvDevice){answer='Para '+(raw||'esse aparelho')+', a opção indicada é IPTV. Ele funciona em aparelhos conectados à internet. Quer ver os planos de IPTV ou saber como configurar?'}
