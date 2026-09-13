@@ -75,13 +75,23 @@ wireWhatsApp();load();
     return bubble;
   }
   function reply(text){
-    var t=String(text||'').toLowerCase(),answer='Posso ajudar com planos, teste, compatibilidade ou suporte. Escolha uma opção abaixo.';
-    if(t.indexOf('plano')>=0)answer='Os planos aparecem na seção Planos. Posso registrar seu contato para a equipe confirmar a melhor opção.';
-    else if(t.indexOf('teste')>=0)answer='O teste depende da disponibilidade e da compatibilidade do seu aparelho. Vou registrar seu pedido para a equipe confirmar.';
-    else if(t.indexOf('suporte')>=0||t.indexOf('ajuda')>=0)answer='Claro. Informe o modelo do aparelho e o que aconteceu. A equipe recebe seu contato e continua o atendimento.';
-    else if(t.indexOf('aparelho')>=0||t.indexOf('tv')>=0||t.indexOf('compat')>=0)answer='Atendemos Smart TV, TV Box, celular, tablet e computador compatíveis. Envie o modelo para conferirmos.';
-    else if(t.indexOf('humano')>=0||t.indexOf('pessoa')>=0||t.indexOf('whatsapp')>=0)answer='Entendi. Continue falando comigo por aqui; este atendimento não sai do site.'
-    var typing=add('Digitando...','bot typing');setTimeout(function(){if(typing.parentNode)typing.remove();typeBot(answer);if(t.indexOf('humano')<0&&t.indexOf('pessoa')<0){}},520);
+    var raw=String(text||'').trim(),t=raw.toLowerCase(),answer='';
+    var greeting=/^(oi|olá|ola|bom dia|boa tarde|boa noite|e aí|e ai)\b/.test(t);
+    var recommendation=/(indica|indico|recomenda|recomendo|melhor|qual escolher|o que.*(serve|indica)|sugere|sugestão|sugestao)/.test(t);
+    var iptvDevice=/(iptv|smart tv|tv box|celular|computador|android tv|fire tv|chromecast|roku|iphone|tablet|notebook|internet)/.test(t);
+    var receiver=/(satélite|satelite|cabo|receptor|antena)/.test(t);
+    if(greeting&&raw.split(/\s+/).length<=4)answer='Oi! Para eu te indicar certinho, qual aparelho você usa: Smart TV, TV Box, celular, computador ou receptor?';
+    else if(recommendation&&!iptvDevice&&!receiver)answer='Eu indico assim: se você usa Smart TV, TV Box, celular, tablet ou computador com internet, o IPTV é o mais prático. Se já usa receptor com antena ou cabo, escolha TV Satélite/Cabo. Qual aparelho você tem?';
+    else if(receiver){answer='Para receptor com antena ou cabo, a opção indicada é TV Satélite/Cabo. Me diga se o seu receptor é de satélite ou de cabo para eu orientar melhor.'}
+    else if(iptvDevice){answer='Para '+(raw||'esse aparelho')+', a opção indicada é IPTV. Ele funciona em aparelhos conectados à internet. Quer ver os planos de IPTV ou saber como configurar?'}
+    else if(t==='planos'||t.indexOf('plano')>=0)answer='Temos duas áreas: IPTV para aparelhos com internet e TV Satélite/Cabo para receptores compatíveis. Diga qual aparelho você usa que eu te mostro a opção certa.';
+    else if(t.indexOf('teste')>=0)answer='O teste depende da disponibilidade e do aparelho. Diga o modelo que você usa e eu explico qual teste solicitar.';
+    else if(t.indexOf('suporte')>=0||t.indexOf('ajuda')>=0)answer='Claro. Me diga o modelo do aparelho e o que você precisa fazer. Vou te orientar passo a passo por aqui.';
+    else if(t.indexOf('instala')>=0||t.indexOf('config')>=0)answer='Eu te ajudo na configuração. Primeiro me diga o aparelho: Smart TV, TV Box, celular, computador ou receptor.';
+    else if(t.indexOf('preço')>=0||t.indexOf('preco')>=0||t.indexOf('valor')>=0)answer='Os valores ficam separados por serviço. Diga se você quer IPTV ou TV Satélite/Cabo e qual aparelho usa para eu indicar a tabela correta.';
+    else if(t.indexOf('humano')>=0||t.indexOf('pessoa')>=0||t.indexOf('whatsapp')>=0)answer='Posso continuar o atendimento por aqui. Me explique o que você precisa e eu vou te orientando.';
+    else answer='Para te indicar corretamente, me diga duas coisas: qual aparelho você usa e se quer assistir pela internet ou por receptor.';
+    var typing=add('Digitando...','bot typing');setTimeout(function(){if(typing.parentNode)typing.remove();typeBot(answer)},520);
   }
   openChat();
   toggle.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();panel.hidden?openChat():closeChat()});
