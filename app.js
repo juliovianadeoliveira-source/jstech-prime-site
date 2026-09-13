@@ -80,6 +80,12 @@ wireWhatsApp();load();
       fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:name,whatsapp:phone,servico:'Atendimento automático',mensagem:'Contato enviado pelo chat com consentimento.'})}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(){status.textContent='Contato enviado. A equipe continuará pelo WhatsApp.';add('Perfeito, '+name+'! Recebemos seu contato.','bot');box.remove()}).catch(function(){status.textContent='Não foi possível enviar agora. Use o botão WhatsApp.'}).finally(function(){button.disabled=false;button.textContent='Enviar contato'});
     });
   }
+  function typeBot(text){
+    var bubble=add('','bot');
+    var chars=Array.from(String(text||'')),index=0;
+    var timer=setInterval(function(){bubble.textContent+=chars[index++]||'';messages.scrollTop=messages.scrollHeight;if(index>=chars.length)clearInterval(timer)},24);
+    return bubble;
+  }
   function reply(text){
     var t=String(text||'').toLowerCase(),answer='Posso ajudar com planos, teste, compatibilidade ou suporte. Escolha uma opção abaixo.';
     if(t.indexOf('plano')>=0)answer='Os planos aparecem na seção Planos. Posso registrar seu contato para a equipe confirmar a melhor opção.';
@@ -87,7 +93,7 @@ wireWhatsApp();load();
     else if(t.indexOf('suporte')>=0||t.indexOf('ajuda')>=0)answer='Claro. Informe o modelo do aparelho e o que aconteceu. A equipe recebe seu contato e continua o atendimento.';
     else if(t.indexOf('aparelho')>=0||t.indexOf('tv')>=0||t.indexOf('compat')>=0)answer='Atendemos Smart TV, TV Box, celular, tablet e computador compatíveis. Envie o modelo para conferirmos.';
     else if(t.indexOf('humano')>=0||t.indexOf('pessoa')>=0||t.indexOf('whatsapp')>=0){answer='Vou encaminhar você para o atendimento humano no WhatsApp.';setTimeout(function(){window.open(wa('Olá! Vim pelo atendimento automático da JSTech Prime e preciso falar com a equipe.'),'_blank')},500)}
-    var typing=add('Digitando...','bot typing');setTimeout(function(){if(typing.parentNode)typing.remove();add(answer,'bot');if(t.indexOf('humano')<0&&t.indexOf('pessoa')<0)showContact()},420);
+    var typing=add('Digitando...','bot typing');setTimeout(function(){if(typing.parentNode)typing.remove();typeBot(answer);if(t.indexOf('humano')<0&&t.indexOf('pessoa')<0)showContact()},520);
   }
   openChat();
   toggle.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();panel.hidden?openChat():closeChat()});
