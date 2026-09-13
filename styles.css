@@ -3,3 +3,32 @@
 .chat-contact{margin:0 14px 12px;padding:11px;border:1px solid #422453;border-radius:11px;background:#160d20;display:grid;gap:7px}.chat-contact-title{font-size:10px;font-weight:800;color:#f0d9ff}.chat-contact input:not([type=checkbox]){padding:9px;border:1px solid #513065;border-radius:8px;background:#09070f;color:#fff;font-size:10px}.chat-contact label{display:flex;align-items:flex-start;gap:6px;color:#b7a5c3;font-size:8px;line-height:1.4}.chat-contact label input{accent-color:#c13cff}.chat-contact button{padding:9px;border:0;border-radius:8px;background:#c13cff;color:#fff;font-size:9px;font-weight:900;cursor:pointer}.chat-contact button:disabled{opacity:.65;cursor:wait}.chat-contact [role=status]{min-height:12px;color:#e4aaff;font-size:8px}.chat-bubble.typing{opacity:.65;font-style:italic}
 
 .chat-panel[hidden]{display:none!important}
+
+/* Compatibilidade: cards informativos para TV e IPTV */
+.devices .title.center>p{max-width:720px;margin:0 auto;color:#a7afbd;font-size:16px;line-height:1.6}
+.device-columns{align-items:stretch}
+.device-panel{display:flex;flex-direction:column;gap:20px;padding:28px!important}
+.device-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.device-panel-head h3{margin:0 0 8px;font:800 16px/1.2 Montserrat}
+.device-panel-head p{margin:0;color:#8d97a8;font-size:14px;line-height:1.55;max-width:520px}
+.device-count{flex:none;padding:7px 10px;border:1px solid #303847;border-radius:999px;color:#b9c2d2;font-size:12px;font-weight:700;white-space:nowrap}
+.device-panel .device-list{flex:1;align-content:start;gap:12px}
+.device-panel .device-list article{min-height:125px;padding:18px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border-radius:15px;background:linear-gradient(145deg,#0b1019,#0a0d14);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.device-panel .device-list article:hover{transform:translateY(-2px);border-color:#46516a;background:#0d121d}
+.device-symbol{font-size:26px;line-height:1;margin-bottom:14px}
+.device-panel .device-list b{margin:0;font-size:14px;line-height:1.25}
+.device-sub{display:block;margin-top:7px;color:#8994a6;font-size:12px;line-height:1.45}
+.cs-panel .device-list{grid-template-columns:repeat(2,1fr)}
+.iptv-panel .device-list{grid-template-columns:repeat(4,1fr)}
+.cs-panel{background:radial-gradient(circle at 0 0,rgba(193,60,255,.12),transparent 38%),#0d1119!important}
+.iptv-panel{background:radial-gradient(circle at 100% 0,rgba(77,109,255,.12),transparent 38%),#0d1119!important}
+.device-tip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:13px 14px;border-radius:12px;background:#0a0e15;border:1px solid #252d3b;color:#b0bac9;font-size:13px;line-height:1.45}
+.device-tip strong{color:#f1f4f8}
+.device-tip span{color:#8994a6}
+.device-note-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.device-note{display:flex;align-items:flex-start;gap:12px;padding:18px;border:1px solid var(--line);border-radius:15px;background:#0d1119}
+.device-note-icon{display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:9px;background:#171225;color:#dd7cff;font-size:16px}
+.device-note strong{display:block;font-size:14px;line-height:1.25}
+.device-note p{margin:6px 0 0;color:#8994a6;font-size:12px;line-height:1.45}
+@media(max-width:960px){.iptv-panel .device-list{grid-template-columns:repeat(3,1fr)}.device-note-row{grid-template-columns:1fr}}
+@media(max-width:620px){.devices .title.center>p{font-size:15px}.device-panel{padding:20px!important}.device-panel-head{display:block}.device-count{display:inline-block;margin-top:12px}.cs-panel .device-list,.iptv-panel .device-list{grid-template-columns:repeat(2,1fr)}.device-panel .device-list article{min-height:118px;padding:14px}.device-panel .device-list b{font-size:13px}.device-sub{font-size:11px}.device-note{padding:15px}}
