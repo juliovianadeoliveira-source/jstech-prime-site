@@ -68,18 +68,6 @@ wireWhatsApp();load();
   function add(text,kind){var el=document.createElement('div');el.className='chat-bubble '+kind;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
   function openChat(){manuallyClosed=false;panel.hidden=false;panel.removeAttribute('hidden');toggle.setAttribute('aria-expanded','true')}
   function closeChat(){manuallyClosed=true;panel.hidden=true;panel.setAttribute('hidden','');toggle.setAttribute('aria-expanded','false')}
-  function showContact(){
-    if(document.getElementById('chatContact'))return;
-    var box=document.createElement('div');box.id='chatContact';box.className='chat-contact';
-    box.innerHTML='<div class="chat-contact-title">Quer que a equipe continue com você?</div><input id="chatName" placeholder="Seu nome" autocomplete="name" required><input id="chatPhone" placeholder="Seu WhatsApp" inputmode="tel" autocomplete="tel" required><label><input id="chatConsent" type="checkbox" required> Autorizo o contato da equipe.</label><button type="button" id="chatSendContact">Enviar contato</button><div id="chatContactStatus" role="status"></div>';
-    messages.appendChild(box);messages.scrollTop=messages.scrollHeight;
-    document.getElementById('chatSendContact').addEventListener('click',function(){
-      var name=document.getElementById('chatName').value.trim(),phone=document.getElementById('chatPhone').value.trim(),consent=document.getElementById('chatConsent').checked,status=document.getElementById('chatContactStatus'),button=this;
-      if(name.length<2||phone.replace(/\D/g,'').length<8||!consent){status.textContent='Preencha nome, WhatsApp e autorize o contato.';return}
-      button.disabled=true;button.textContent='ENVIANDO...';status.textContent='';
-      fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:name,whatsapp:phone,servico:'Atendimento automático',mensagem:'Contato enviado pelo chat com consentimento.'})}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(){status.textContent='Contato enviado. A equipe continuará pelo WhatsApp.';add('Perfeito, '+name+'! Recebemos seu contato.','bot');box.remove()}).catch(function(){status.textContent='Não foi possível enviar agora. Use o botão WhatsApp.'}).finally(function(){button.disabled=false;button.textContent='Enviar contato'});
-    });
-  }
   function typeBot(text){
     var bubble=add('','bot');
     var chars=Array.from(String(text||'')),index=0;
@@ -92,8 +80,8 @@ wireWhatsApp();load();
     else if(t.indexOf('teste')>=0)answer='O teste depende da disponibilidade e da compatibilidade do seu aparelho. Vou registrar seu pedido para a equipe confirmar.';
     else if(t.indexOf('suporte')>=0||t.indexOf('ajuda')>=0)answer='Claro. Informe o modelo do aparelho e o que aconteceu. A equipe recebe seu contato e continua o atendimento.';
     else if(t.indexOf('aparelho')>=0||t.indexOf('tv')>=0||t.indexOf('compat')>=0)answer='Atendemos Smart TV, TV Box, celular, tablet e computador compatíveis. Envie o modelo para conferirmos.';
-    else if(t.indexOf('humano')>=0||t.indexOf('pessoa')>=0||t.indexOf('whatsapp')>=0){answer='Vou encaminhar você para o atendimento humano no WhatsApp.';setTimeout(function(){window.open(wa('Olá! Vim pelo atendimento automático da JSTech Prime e preciso falar com a equipe.'),'_blank')},500)}
-    var typing=add('Digitando...','bot typing');setTimeout(function(){if(typing.parentNode)typing.remove();typeBot(answer);if(t.indexOf('humano')<0&&t.indexOf('pessoa')<0)showContact()},520);
+    else if(t.indexOf('humano')>=0||t.indexOf('pessoa')>=0||t.indexOf('whatsapp')>=0)answer='Entendi. Continue falando comigo por aqui; este atendimento não sai do site.'
+    var typing=add('Digitando...','bot typing');setTimeout(function(){if(typing.parentNode)typing.remove();typeBot(answer);if(t.indexOf('humano')<0&&t.indexOf('pessoa')<0){}},520);
   }
   openChat();
   toggle.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();panel.hidden?openChat():closeChat()});
