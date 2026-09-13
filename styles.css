@@ -32,3 +32,33 @@
 .device-note p{margin:6px 0 0;color:#8994a6;font-size:12px;line-height:1.45}
 @media(max-width:960px){.iptv-panel .device-list{grid-template-columns:repeat(3,1fr)}.device-note-row{grid-template-columns:1fr}}
 @media(max-width:620px){.devices .title.center>p{font-size:15px}.device-panel{padding:20px!important}.device-panel-head{display:block}.device-count{display:inline-block;margin-top:12px}.cs-panel .device-list,.iptv-panel .device-list{grid-template-columns:repeat(2,1fr)}.device-panel .device-list article{min-height:118px;padding:14px}.device-panel .device-list b{font-size:13px}.device-sub{font-size:11px}.device-note{padding:15px}}
+
+/* Cards clicáveis e janela de informações dos aparelhos */
+.device-card{appearance:none;-webkit-appearance:none;width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.device-panel .device-list .device-card{min-height:145px;padding:18px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,#0b1019,#0a0d14);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.device-panel .device-list .device-card:hover{transform:translateY(-3px);border-color:#a653e8;background:linear-gradient(145deg,#110e1e,#0d121d)}
+.device-panel .device-list .device-card:focus-visible{outline:3px solid rgba(239,99,255,.55);outline-offset:3px}
+.device-card .device-symbol{display:block;font-size:26px;line-height:1;margin-bottom:14px}
+.device-card b{margin:0!important;font-size:14px!important;line-height:1.25}
+.device-card .device-sub{display:block;margin-top:7px;color:#8994a6;font-size:12px;line-height:1.45}
+.device-link{display:block;margin-top:auto;padding-top:14px;color:#e899ff;font-size:12px;font-weight:800}
+.device-modal[hidden]{display:none!important}
+.device-modal{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px}
+.device-modal-backdrop{position:absolute;inset:0;background:rgba(2,3,8,.78);backdrop-filter:blur(8px)}
+.device-modal-card{position:relative;width:min(580px,100%);padding:34px;border:1px solid #4b2a65;border-radius:24px;background:linear-gradient(145deg,#171022,#0d0b14 75%);box-shadow:0 25px 100px rgba(0,0,0,.65);animation:deviceModalIn .2s ease-out}
+@keyframes deviceModalIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.device-modal-close{position:absolute;top:14px;right:15px;width:36px;height:36px;border:1px solid #3a264b;border-radius:10px;background:#110c19;color:#dbc7e8;font-size:24px;line-height:1;cursor:pointer}
+.device-modal-close:hover,.device-modal-close:focus-visible{border-color:#ef63ff;color:#fff;outline:none}
+.device-modal-kicker{display:block;color:#ef9cff;font-size:11px;font-weight:900;letter-spacing:.12em}
+.device-modal-card h2{margin:10px 44px 10px 0;font:900 clamp(28px,4vw,38px)/1.08 Montserrat;letter-spacing:-.035em}
+.device-modal-card>p{margin:0;color:#abb3c2;font-size:15px;line-height:1.65}
+.device-modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.device-modal-grid>div{padding:16px;border:1px solid #30213e;border-radius:14px;background:#100c18}
+.device-modal-grid span{display:block;margin-bottom:8px;color:#9b77ab;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.device-modal-grid strong{display:block;color:#edf1f7;font-size:14px;line-height:1.5}
+.device-modal-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.device-modal-actions .button{font-size:11px}
+.device-modal-secondary{padding:12px 16px;border:1px solid #403047;border-radius:10px;background:transparent;color:#c8b7d3;font-size:12px;font-weight:800;cursor:pointer}
+.device-modal-secondary:hover{border-color:#a653e8;color:#fff}
+body.modal-open{overflow:hidden}
+@media(max-width:620px){.device-modal{padding:12px}.device-modal-card{padding:26px 20px 20px;border-radius:19px}.device-modal-grid{grid-template-columns:1fr;gap:9px;margin:18px 0}.device-modal-card>p{font-size:14px}.device-modal-grid>div{padding:13px}.device-modal-actions{display:grid;grid-template-columns:1fr;width:100%}.device-modal-actions .button,.device-modal-secondary{width:100%;text-align:center}}
