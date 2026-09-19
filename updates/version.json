@@ -1,7 +1,7 @@
 {
-  "versionCode": 13,
-  "versionName": "1.3.2",
-  "apkUrl": "https://raw.githubusercontent.com/juliovianadeoliveira-source/jstech-prime-site/main/updates/JSTech-Privado-latest.apk",
-  "sha256": "c19a2dd7a6e1e296d5b9b0c0fbc3cb0834776ae3d50d9b4e1e5ab9136b938128",
-  "notes": "Atualização automática: o JSTech Privado reconhece a versão nova ao abrir, no botão de atualizar ou ao pressionar F5, baixa sozinho e atualiza por cima do mesmo aplicativo."
+  "versionCode": 14,
+  "versionName": "1.4.0",
+  "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
+  "sha256": "e4b4f7753e3342fa84890b61c099ca4099a4720114d6cf875f13e8eb25e9c071",
+  "notes": "Atualização automática do JSTech Privado por endereço permanente. O app reconhece a nova versão ao abrir, no botão de atualizar ou ao pressionar F5, baixa e instala por cima sem precisar desinstalar."
 }
