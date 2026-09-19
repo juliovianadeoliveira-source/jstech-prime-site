@@ -398,5 +398,53 @@
     "desc": "Conteúdo internacional para adultos — exige confirmação de maioridade",
     "url": "https://www.pornhub.com/video/search?search=indonesian",
     "adult": true
+  },
+  {
+    "name": "Chaturbate Live",
+    "ico": "CB",
+    "cat": "Lives adultas 18+",
+    "desc": "Transmissões adultas ao vivo — exige maioridade e consentimento",
+    "url": "https://chaturbate.com/",
+    "adult": true
+  },
+  {
+    "name": "Stripchat Live",
+    "ico": "SC",
+    "cat": "Lives adultas 18+",
+    "desc": "Transmissões adultas ao vivo — exige maioridade e consentimento",
+    "url": "https://stripchat.com/",
+    "adult": true
+  },
+  {
+    "name": "LiveJasmin",
+    "ico": "LJ",
+    "cat": "Lives adultas 18+",
+    "desc": "Transmissões adultas ao vivo — exige maioridade e consentimento",
+    "url": "https://www.livejasmin.com/",
+    "adult": true
+  },
+  {
+    "name": "MyFreeCams",
+    "ico": "MF",
+    "cat": "Lives adultas 18+",
+    "desc": "Transmissões adultas ao vivo — exige maioridade e consentimento",
+    "url": "https://www.myfreecams.com/",
+    "adult": true
+  },
+  {
+    "name": "CamSoda",
+    "ico": "CS",
+    "cat": "Lives adultas 18+",
+    "desc": "Transmissões adultas ao vivo — exige maioridade e consentimento",
+    "url": "https://www.camsoda.com/",
+    "adult": true
+  },
+  {
+    "name": "BongaCams",
+    "ico": "BC",
+    "cat": "Lives adultas 18+",
+    "desc": "Transmissões adultas ao vivo — exige maioridade e consentimento",
+    "url": "https://bongacams.com/",
+    "adult": true
   }
 ]
