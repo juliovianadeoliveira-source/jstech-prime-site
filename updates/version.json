@@ -1,7 +1,7 @@
 {
-  "versionCode": 16,
-  "versionName": "1.4.2",
+  "versionCode": 17,
+  "versionName": "1.4.3",
   "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
-  "sha256": "091fdede2314d28cba13d4f6c2b016dbf114a770b5b8540a0e51a0b7f4ac64ba",
-  "notes": "Corrige a instalação do update usando diretamente o instalador do Android e libera o redirecionamento HTTP somente para o CraftAura. Mantém SuperLive, Yam Live, Anime AI Chat, SpankPic, Cling AI, Aura, CraftAura e XVideos no catálogo."
+  "sha256": "1a3e08bc08922862f0a9521d659b8bc2dc2765414990f71aa3052f26cc5ef214",
+  "notes": "Adiciona a categoria Jogos com Betano, Novibet, KTO, Betão e Bet365. Links de anúncios foram limpos para endereços diretos e o acesso exige confirmação 18+."
 }
