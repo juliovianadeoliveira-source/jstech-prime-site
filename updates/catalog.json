@@ -158,5 +158,29 @@
     "desc": "Conteúdo adulto 18+ — exige confirmação de maioridade",
     "url": "https://www.nuvid.com/",
     "adult": true
+  },
+  {
+    "name": "SuperLive Web Online",
+    "ico": "SL",
+    "cat": "Redes sociais",
+    "desc": "Lives e chat direto pelo navegador — sem baixar outro app",
+    "url": "https://superlive.chat/pt",
+    "adult": false
+  },
+  {
+    "name": "Yam Live Web",
+    "ico": "YM",
+    "cat": "Redes sociais",
+    "desc": "Yam Live pelo navegador — conteúdo e lives online",
+    "url": "https://yamlive.vn/",
+    "adult": false
+  },
+  {
+    "name": "Anime AI Chat",
+    "ico": "AI",
+    "cat": "IA",
+    "desc": "Chat com avatares e personagens anime diretamente pelo navegador",
+    "url": "https://www.anime-ai.chat/",
+    "adult": false
   }
 ]
