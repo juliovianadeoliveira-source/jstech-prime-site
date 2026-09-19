@@ -22,7 +22,7 @@
   <section class="hero">
     <h2>Tudo em um só lugar</h2>
     <p>Recuperei a central completa e acrescentei as novas ferramentas de IA sem remover o conteúdo antigo.</p>
-    <div class="stats"><div class="stat"><strong>1.156</strong><span>CONTEÚDOS ORIGINAIS</span></div><div class="stat"><strong id="newCount">65</strong><span>NOVAS FERRAMENTAS</span></div><div class="stat"><strong id="totalCount">1.221</strong><span>TOTAL</span></div></div>
+    <div class="stats"><div class="stat"><strong>1.156</strong><span>CONTEÚDOS ORIGINAIS</span></div><div class="stat"><strong id="newCount">85</strong><span>NOVAS FERRAMENTAS</span></div><div class="stat"><strong id="totalCount">1.241</strong><span>TOTAL</span></div></div>
     <div class="searchrow"><input id="q" type="search" placeholder="Pesquisar em todos os itens..."><button onclick="clearSearch()">Limpar</button></div>
     <div class="custom"><b>Abrir qualquer site</b><div class="searchrow"><input id="u" inputmode="url" placeholder="Cole um endereço https://..."><button onclick="openCustom()">Abrir</button></div><small>Qualquer site novo também pode ser aberto dentro do JSTech Privado.</small></div>
   </section>
@@ -164,6 +164,32 @@ const styleTools = [
 ["CraftAura Web","CA","Moda & roupa","Ferramenta web Aura — link enviado por você","https://www.craftauraweb.com/pt"]
 ];
 
+const animeTools = [
+["PixAI","PX","Anime IA","Arte anime e personagens com IA","https://pixai.art/"],
+["SeaArt AI","SA","Anime IA","Anime, personagens e ilustração por IA","https://www.seaart.ai/"],
+["NovelAI","NAI","Anime IA","Geração de imagens e personagens em estilo anime","https://novelai.net/"],
+["Waifu Labs","WL","Anime IA","Criação de personagens anime por IA","https://waifulabs.com/"],
+["Crypko","CRY","Anime IA","Criação de avatares e personagens anime","https://crypko.ai/"],
+["Getimg AI","GI","Anime IA","Geração de imagens com modelos de anime","https://getimg.ai/"],
+["Mage Space","MG","Anime IA","Modelos e geração de arte anime","https://www.mage.space/"],
+["Tensor.Art","TA","Anime IA","Modelos e geração de imagens anime","https://tensor.art/"],
+["Civitai","CIV","Anime IA","Modelos e recursos para geração de imagens","https://civitai.com/"],
+["Fotor Anime AI","FA","Anime IA","Gerador de anime por IA no navegador","https://www.fotor.com/features/ai-anime-generator/"]
+];
+
+const videoAiTools = [
+["Kling AI","KLG","Vídeo IA","Criação de vídeo a partir de imagem ou texto","https://klingai.com/"],
+["Runway","RUN","Vídeo IA","Imagem para vídeo e edição generativa","https://app.runwayml.com/"],
+["Pika","PIK","Vídeo IA","Anima fotos e cria vídeos com IA","https://pika.art/"],
+["PixVerse","PV","Vídeo IA","Imagem e texto para vídeo com IA","https://app.pixverse.ai/"],
+["Haiper AI","HAI","Vídeo IA","Animação de imagens e geração de vídeo","https://haiper.ai/"],
+["Luma Dream Machine","LDM","Vídeo IA","Gera vídeo a partir de imagem e prompt","https://lumalabs.ai/dream-machine"],
+["Hailuo AI","HLO","Vídeo IA","Criação de vídeos com IA a partir de imagem ou texto","https://hailuoai.video/"],
+["Vidu AI","VID","Vídeo IA","Imagem de referência para vídeo com IA","https://www.vidu.com/"],
+["Higgsfield","HIG","Vídeo IA","Vídeo com IA e controle de câmera","https://higgsfield.ai/"],
+["CapCut Dreamina","CCD","Vídeo IA","Foto para vídeo e criação visual por IA","https://dreamina.capcut.com/"]
+];
+
 const topicGroups = {
 "Tecnologia":["Android","Samsung","iPhone","Windows","Linux","Redes de computadores","Wi-Fi","Starlink","Segurança digital","Programação"],
 "IA":["Inteligência artificial","ChatGPT","Gemini","Claude","Geração de vídeo com IA","Geração de imagem com IA","Automação com IA","Prompt engineering","Agentes de IA","Voz com IA"],
@@ -200,8 +226,10 @@ Object.entries(topicGroups).forEach(([cat,topics])=>topics.forEach(topic=>engine
 })));
 aiSites.forEach(s=>cards.push({name:s[0],ico:s[1],cat:"IA",desc:s[3],url:s[4],kind:"ai",cling:!!s[5]}));
 styleTools.forEach(s=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"ai"}));
+animeTools.forEach(s=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"ai"}));
+videoAiTools.forEach(s=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"ai"}));
 
-const categories=["Todos","Pesquisa","IA","Moda & roupa","Vídeos","Imagens & design","Redes sociais","Comunicação","Entretenimento","Música & áudio","Notícias","Compras","Educação & trabalho","Negócios","Serviços & mapas","Jogos","Adulto"];
+const categories=["Todos","Pesquisa","IA","Anime IA","Vídeo IA","Moda & roupa","Vídeos","Imagens & design","Redes sociais","Comunicação","Entretenimento","Música & áudio","Notícias","Compras","Educação & trabalho","Negócios","Serviços & mapas","Jogos","Adulto"];
 const pageSize=48;
 let active="Todos",page=1,query="";
 
