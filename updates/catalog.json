@@ -454,5 +454,13 @@
     "desc": "CraftAura carregando pelo endereço HTTPS corrigido, inclusive fotos",
     "url": "https://www.craftauraweb.com/pt/?jstech=1",
     "adult": false
+  },
+  {
+    "name": "OnlyFans",
+    "ico": "OF",
+    "cat": "Adulto",
+    "desc": "Plataforma de criadores adultos — exige confirmação de maioridade",
+    "url": "https://onlyfans.com/",
+    "adult": true
   }
 ]
