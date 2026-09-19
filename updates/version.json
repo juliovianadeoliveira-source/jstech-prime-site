@@ -1,7 +1,7 @@
 {
-  "versionCode": 21,
-  "versionName": "1.4.7",
+  "versionCode": 22,
+  "versionName": "1.4.8",
   "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
-  "sha256": "2d14a489ef5ce0b3ac81ae802293733915b12356bebd4d84cf02be29f719e7bb",
-  "notes": "Corrige o envio de fotos no CraftAura e em outros sites, habilita o seletor da galeria, adiciona OnlyFans e amplia o catálogo adulto 18+."
+  "sha256": "8ac8ea67f31b58c10e4e3b41c3cc9eabf2381d849cd8c2fa93bc929723c33580",
+  "notes": "Modo privado sem histórico interno, cache ou preenchimento salvo; limpeza ao fechar; aba Animes com catálogo mundial; mantém envio de fotos, OnlyFans e catálogo 18+."
 }
