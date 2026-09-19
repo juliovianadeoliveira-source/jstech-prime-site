@@ -1,7 +1,7 @@
 {
-  "versionCode": 17,
-  "versionName": "1.4.3",
+  "versionCode": 18,
+  "versionName": "1.4.4",
   "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
-  "sha256": "1a3e08bc08922862f0a9521d659b8bc2dc2765414990f71aa3052f26cc5ef214",
-  "notes": "Adiciona a categoria Jogos com Betano, Novibet, KTO, Betão e Bet365. Links de anúncios foram limpos para endereços diretos e o acesso exige confirmação 18+."
+  "sha256": "c221eaa2154311425b9615a85eea9d33c78513f282f8ad101303effe925fda91",
+  "notes": "Adiciona as categorias Anime IA e Vídeo IA com 21 atalhos, incluindo Cling AI na pasta Vídeo IA. Mantém as correções do instalador do Android e do CraftAura."
 }
