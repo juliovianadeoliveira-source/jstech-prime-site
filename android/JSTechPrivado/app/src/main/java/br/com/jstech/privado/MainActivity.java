@@ -51,6 +51,8 @@ public class MainActivity extends Activity {
     private static final String HOME_BASE_URL = "https://jstech.local/";
     private static final String UPDATE_JSON_URL =
             "https://raw.githubusercontent.com/juliovianadeoliveira-source/jstech-prime-site/main/updates/version.json";
+    private static final String CATALOG_JSON_URL =
+            "https://raw.githubusercontent.com/juliovianadeoliveira-source/jstech-prime-site/main/updates/catalog.json";
 
     private WebView webView;
     private TextView domainView;
@@ -133,7 +135,13 @@ public class MainActivity extends Activity {
         update.setOnClickListener(v -> checkForUpdates(true));
         reload.setOnClickListener(v -> {
             checkForUpdates(true);
-            webView.reload();
+            try {
+                String host = Uri.parse(webView.getUrl()).getHost();
+                if ("jstech.local".equalsIgnoreCase(host)) loadHomePage();
+                else webView.reload();
+            } catch (Exception ignored) {
+                webView.reload();
+            }
         });
         clear.setOnClickListener(v -> clearPrivateSession(false));
         exit.setOnClickListener(v -> clearPrivateSession(true));
@@ -202,6 +210,11 @@ public class MainActivity extends Activity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 showDomain(url);
+                try {
+                    String host = Uri.parse(url).getHost();
+                    if ("jstech.local".equalsIgnoreCase(host)) loadRemoteCatalog();
+                } catch (Exception ignored) {
+                }
                 super.onPageFinished(view, url);
             }
 
@@ -289,6 +302,34 @@ public class MainActivity extends Activity {
         }
         Toast.makeText(this, "Este tipo de link está bloqueado no modo privado.", Toast.LENGTH_LONG).show();
         return true;
+    }
+
+    private void loadRemoteCatalog() {
+        new Thread(() -> {
+            HttpURLConnection connection = null;
+            try {
+                URL url = new URL(CATALOG_JSON_URL + "?t=" + System.currentTimeMillis());
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setConnectTimeout(7000);
+                connection.setReadTimeout(7000);
+                connection.setUseCaches(false);
+                connection.setRequestProperty("Accept", "application/json");
+
+                int code = connection.getResponseCode();
+                if (code < 200 || code >= 300) return;
+
+                String json = readAll(connection.getInputStream()).trim();
+                if (!json.startsWith("[") || !json.endsWith("]")) return;
+
+                String script = "mergeRemoteCatalog(" + json + ");";
+                runOnUiThread(() -> {
+                    if (webView != null) webView.evaluateJavascript(script, null);
+                });
+            } catch (Exception ignored) {
+            } finally {
+                if (connection != null) connection.disconnect();
+            }
+        }).start();
     }
 
     private void checkForUpdates(boolean manual) {
@@ -572,7 +613,15 @@ public class MainActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_F5) {
             checkForUpdates(true);
-            if (webView != null) webView.reload();
+            if (webView != null) {
+                try {
+                    String host = Uri.parse(webView.getUrl()).getHost();
+                    if ("jstech.local".equalsIgnoreCase(host)) loadHomePage();
+                    else webView.reload();
+                } catch (Exception ignored) {
+                    webView.reload();
+                }
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
