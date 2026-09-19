@@ -446,5 +446,13 @@
     "desc": "Transmissões adultas ao vivo — exige maioridade e consentimento",
     "url": "https://bongacams.com/",
     "adult": true
+  },
+  {
+    "name": "CraftAura Web — corrigido",
+    "ico": "CA",
+    "cat": "Moda & roupa",
+    "desc": "CraftAura carregando pelo endereço HTTPS corrigido, inclusive fotos",
+    "url": "https://www.craftauraweb.com/pt/?jstech=1",
+    "adult": false
   }
 ]
