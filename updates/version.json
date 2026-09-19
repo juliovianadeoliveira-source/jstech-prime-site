@@ -1,7 +1,7 @@
 {
-  "versionCode": 12,
-  "versionName": "1.3.1",
+  "versionCode": 13,
+  "versionName": "1.3.2",
   "apkUrl": "https://raw.githubusercontent.com/juliovianadeoliveira-source/jstech-prime-site/main/updates/JSTech-Privado-latest.apk",
-  "sha256": "bf68abd5dec1b72ea494b28cb0b18a4384d06ff883e49522915afa2d70102328",
-  "notes": "Corrigida a compatibilidade do CraftAura e de sites que usam novas janelas/pop-ups. Atualização instalada por cima do mesmo aplicativo."
+  "sha256": "c19a2dd7a6e1e296d5b9b0c0fbc3cb0834776ae3d50d9b4e1e5ab9136b938128",
+  "notes": "Atualização automática: o JSTech Privado reconhece a versão nova ao abrir, no botão de atualizar ou ao pressionar F5, baixa sozinho e atualiza por cima do mesmo aplicativo."
 }
