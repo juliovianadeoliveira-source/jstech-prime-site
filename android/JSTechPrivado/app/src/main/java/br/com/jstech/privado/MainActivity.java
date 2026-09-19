@@ -17,6 +17,7 @@ import android.os.Message;
 import android.os.Environment;
 import android.provider.Settings;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -62,6 +63,8 @@ public class MainActivity extends Activity {
     private String pendingUpdateUrl;
     private String pendingUpdateSha256;
     private BroadcastReceiver updateDownloadReceiver;
+    private boolean updateCheckInProgress = false;
+    private long lastAutoUpdateCheck = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +131,10 @@ public class MainActivity extends Activity {
         });
         home.setOnClickListener(v -> loadHomePage());
         update.setOnClickListener(v -> checkForUpdates(true));
-        reload.setOnClickListener(v -> webView.reload());
+        reload.setOnClickListener(v -> {
+            checkForUpdates(true);
+            webView.reload();
+        });
         clear.setOnClickListener(v -> clearPrivateSession(false));
         exit.setOnClickListener(v -> clearPrivateSession(true));
     }
@@ -286,6 +292,11 @@ public class MainActivity extends Activity {
     }
 
     private void checkForUpdates(boolean manual) {
+        if (updateCheckInProgress) {
+            if (manual) Toast.makeText(this, "Já estou verificando atualização...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        updateCheckInProgress = true;
         new Thread(() -> {
             HttpURLConnection connection = null;
             try {
@@ -310,7 +321,12 @@ public class MainActivity extends Activity {
 
                 runOnUiThread(() -> {
                     if (remoteCode > getCurrentVersionCode() && !apkUrl.isEmpty()) {
-                        showUpdateDialog(remoteName, notes, apkUrl, sha256);
+                        Toast.makeText(
+                                MainActivity.this,
+                                "Nova versão " + remoteName + " encontrada. Baixando automaticamente...",
+                                Toast.LENGTH_LONG
+                        ).show();
+                        prepareUpdateDownload(apkUrl, sha256);
                     } else if (manual) {
                         Toast.makeText(
                                 MainActivity.this,
@@ -329,6 +345,7 @@ public class MainActivity extends Activity {
                 }
             } finally {
                 if (connection != null) connection.disconnect();
+                runOnUiThread(() -> updateCheckInProgress = false);
             }
         }).start();
     }
@@ -427,7 +444,9 @@ public class MainActivity extends Activity {
     private void installDownloadedUpdate() {
         try {
             DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-            Uri apkUri = manager.getUriForDownloadedFile(updateDownloadId);
+            long completedId = updateDownloadId;
+            updateDownloadId = -1L;
+            Uri apkUri = manager.getUriForDownloadedFile(completedId);
             if (apkUri == null) {
                 Toast.makeText(this, "Falha ao baixar a atualização.", Toast.LENGTH_LONG).show();
                 return;
@@ -436,7 +455,7 @@ public class MainActivity extends Activity {
             if (!updateExpectedSha256.isEmpty()) {
                 String actual = sha256(apkUri);
                 if (!updateExpectedSha256.equalsIgnoreCase(actual)) {
-                    manager.remove(updateDownloadId);
+                    manager.remove(completedId);
                     Toast.makeText(
                             this,
                             "A atualização não passou na verificação de segurança.",
@@ -550,6 +569,16 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_F5) {
+            checkForUpdates(true);
+            if (webView != null) webView.reload();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     public void onBackPressed() {
         if (fullScreenView != null) hideFullScreenVideo();
         else if (webView.canGoBack()) webView.goBack();
@@ -575,6 +604,13 @@ public class MainActivity extends Activity {
             pendingUpdateUrl = null;
             pendingUpdateSha256 = null;
             startUpdateDownload(url, sha);
+            return;
+        }
+
+        long now = System.currentTimeMillis();
+        if (now - lastAutoUpdateCheck > 60000L) {
+            lastAutoUpdateCheck = now;
+            checkForUpdates(false);
         }
     }
 
