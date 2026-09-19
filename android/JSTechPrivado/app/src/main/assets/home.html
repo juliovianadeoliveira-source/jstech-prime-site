@@ -22,7 +22,7 @@
   <section class="hero">
     <h2>Tudo em um só lugar</h2>
     <p>Recuperei a central completa e acrescentei as novas ferramentas de IA sem remover o conteúdo antigo.</p>
-    <div class="stats"><div class="stat"><strong>1.156</strong><span>CONTEÚDOS ORIGINAIS</span></div><div class="stat"><strong id="newCount">60</strong><span>NOVAS FERRAMENTAS</span></div><div class="stat"><strong id="totalCount">1.216</strong><span>TOTAL</span></div></div>
+    <div class="stats"><div class="stat"><strong>1.156</strong><span>CONTEÚDOS ORIGINAIS</span></div><div class="stat"><strong id="newCount">65</strong><span>NOVAS FERRAMENTAS</span></div><div class="stat"><strong id="totalCount">1.221</strong><span>TOTAL</span></div></div>
     <div class="searchrow"><input id="q" type="search" placeholder="Pesquisar em todos os itens..."><button onclick="clearSearch()">Limpar</button></div>
     <div class="custom"><b>Abrir qualquer site</b><div class="searchrow"><input id="u" inputmode="url" placeholder="Cole um endereço https://..."><button onclick="openCustom()">Abrir</button></div><small>Qualquer site novo também pode ser aberto dentro do JSTech Privado.</small></div>
   </section>
@@ -93,6 +93,11 @@ const directSites = [
 ["SuperLive Web Online","SL","Redes sociais","Lives e chat direto pelo navegador — sem baixar outro app","https://superlive.chat/pt"],
 ["Yam Live Web","YM","Redes sociais","Yam Live pelo navegador — conteúdo e lives online","https://yamlive.vn/"],
 ["Anime AI Chat","AI","IA","Chat com avatares e personagens anime diretamente pelo navegador","https://www.anime-ai.chat/"],
+["Betano","BT","Jogos","Cassino e apostas online — 18+","https://www.betano.bet.br/casino/?panel=offerDetails&id=215152",true],
+["Novibet","NV","Jogos","Cassino e apostas online — 18+","https://www.novibet.bet.br/cassino",true],
+["KTO","KTO","Jogos","Cassino e apostas online — 18+","https://www.kto.bet.br/",true],
+["Betão","BTA","Jogos","Cassino e apostas online — 18+","https://betao.bet.br/",true],
+["Bet365","365","Jogos","Apostas esportivas e cassino — 18+","https://www.bet365.bet.br/hub/pt-br/sports-betting-br",true],
 ["SpankPic","SP","Adulto","Vídeo 18+ com IA — use somente imagens de adultos com consentimento","https://www.spankpic.com/pt"],
 ["XVideos","18+","Adulto","Conteúdo adulto — exige confirmação 18+","https://www.xvideos.com/"]
 ];
@@ -187,7 +192,7 @@ const engines = [
 ];
 
 const cards=[];
-directSites.forEach((s,i)=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"direct",adult:s[2]==="Adulto"}));
+directSites.forEach((s,i)=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"direct",adult:s[5]===true || s[2]==="Adulto"}));
 Object.entries(topicGroups).forEach(([cat,topics])=>topics.forEach(topic=>engines.forEach(([engine,base])=>{
   const q=encodeURIComponent(topic);
   const url=engine==="Mercado Livre"?base+encodeURIComponent(topic).replace(/%20/g,"-"):base+q;
@@ -196,7 +201,7 @@ Object.entries(topicGroups).forEach(([cat,topics])=>topics.forEach(topic=>engine
 aiSites.forEach(s=>cards.push({name:s[0],ico:s[1],cat:"IA",desc:s[3],url:s[4],kind:"ai",cling:!!s[5]}));
 styleTools.forEach(s=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"ai"}));
 
-const categories=["Todos","Pesquisa","IA","Moda & roupa","Vídeos","Imagens & design","Redes sociais","Comunicação","Entretenimento","Música & áudio","Notícias","Compras","Educação & trabalho","Negócios","Serviços & mapas","Adulto"];
+const categories=["Todos","Pesquisa","IA","Moda & roupa","Vídeos","Imagens & design","Redes sociais","Comunicação","Entretenimento","Música & áudio","Notícias","Compras","Educação & trabalho","Negócios","Serviços & mapas","Jogos","Adulto"];
 const pageSize=48;
 let active="Todos",page=1,query="";
 
@@ -242,7 +247,7 @@ function renderChips(){
  categories.forEach(c=>{const b=document.createElement("button");b.className="chip"+(c===active?" active":"");b.textContent=c;b.onclick=()=>{active=c;page=1;render()};el.appendChild(b)});
 }
 function openCard(c){
- if((c.adult || c.cat==="Adulto") && !confirm("Conteúdo adulto 18+. Confirma que você tem 18 anos ou mais?")) return;
+ if(c.adult && !confirm(c.cat==="Jogos" ? "Apostas e cassino 18+. Confirma que você tem 18 anos ou mais?" : "Conteúdo adulto 18+. Confirma que você tem 18 anos ou mais?")) return;
  location.href=c.url;
 }
 function logoOrigin(c){
