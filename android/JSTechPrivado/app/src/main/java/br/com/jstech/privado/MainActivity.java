@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.os.Environment;
 import android.provider.Settings;
 import android.view.Gravity;
@@ -155,8 +156,13 @@ public class MainActivity extends Activity {
         settings.setSaveFormData(false);
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
-        settings.setJavaScriptCanOpenWindowsAutomatically(false);
-        settings.setSupportMultipleWindows(false);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setSupportMultipleWindows(true);
+        String chromeLikeUa = settings.getUserAgentString();
+        if (chromeLikeUa != null) {
+            chromeLikeUa = chromeLikeUa.replace("; wv", "").replace("Version/4.0 ", "");
+            settings.setUserAgentString(chromeLikeUa);
+        }
         settings.setMediaPlaybackRequiresUserGesture(true);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         settings.setGeolocationEnabled(false);
@@ -213,6 +219,38 @@ public class MainActivity extends Activity {
             public void onProgressChanged(WebView view, int newProgress) {
                 progressBar.setProgress(newProgress);
                 progressBar.setVisibility(newProgress >= 100 ? View.GONE : View.VISIBLE);
+            }
+
+            @Override
+            public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+                WebView popup = new WebView(MainActivity.this);
+                WebSettings popupSettings = popup.getSettings();
+                popupSettings.setJavaScriptEnabled(true);
+                popupSettings.setDomStorageEnabled(true);
+                popupSettings.setUserAgentString(webView.getSettings().getUserAgentString());
+
+                popup.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView child, WebResourceRequest request) {
+                        Uri uri = request.getUrl();
+                        child.stopLoading();
+                        child.destroy();
+                        return handleNavigation(webView, uri);
+                    }
+
+                    @Override
+                    @SuppressWarnings("deprecation")
+                    public boolean shouldOverrideUrlLoading(WebView child, String url) {
+                        child.stopLoading();
+                        child.destroy();
+                        return handleNavigation(webView, Uri.parse(url));
+                    }
+                });
+
+                WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+                transport.setWebView(popup);
+                resultMsg.sendToTarget();
+                return true;
             }
 
             @Override
