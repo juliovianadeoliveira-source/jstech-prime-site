@@ -37,18 +37,23 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Build debug APK
+      - name: Build unsigned release APK
         working-directory: android/JSTechPrivado
-        run: gradle --no-daemon assembleDebug
+        run: gradle --no-daemon assembleRelease
 
-      - name: Copy installer
+      - name: Prepare release files
         run: |
           mkdir -p output
-          cp android/JSTechPrivado/app/build/outputs/apk/debug/app-debug.apk output/JSTech-Privado-1.1.0-teste.apk
+          cp android/JSTechPrivado/app/build/outputs/apk/release/app-release-unsigned.apk output/JSTech-Privado-1.1.1-unsigned.apk
+          cp "$ANDROID_HOME/build-tools/35.0.0/lib/apksigner.jar" output/apksigner.jar
+          sha256sum output/JSTech-Privado-1.1.1-unsigned.apk > output/unsigned-sha256.txt
 
-      - name: Upload APK
+      - name: Upload release build
         uses: actions/upload-artifact@v4
         with:
-          name: JSTech-Privado-1.1.0
-          path: output/JSTech-Privado-1.1.0-teste.apk
+          name: JSTech-Privado-1.1.1-Unsigned
+          path: |
+            output/JSTech-Privado-1.1.1-unsigned.apk
+            output/apksigner.jar
+            output/unsigned-sha256.txt
           retention-days: 30
