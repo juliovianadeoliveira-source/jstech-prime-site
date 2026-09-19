@@ -182,5 +182,29 @@
     "desc": "Chat com avatares e personagens anime diretamente pelo navegador",
     "url": "https://www.anime-ai.chat/",
     "adult": false
+  },
+  {
+    "name": "xHamster Árabe",
+    "ico": "XHA",
+    "cat": "Adulto",
+    "desc": "Conteúdo adulto com seção em árabe — somente 18+",
+    "url": "https://ar.xhamster.com/",
+    "adult": true
+  },
+  {
+    "name": "XVideos Árabe",
+    "ico": "XVA",
+    "cat": "Adulto",
+    "desc": "Conteúdo adulto com busca árabe — somente 18+",
+    "url": "https://www.xvideos.com/?k=arab",
+    "adult": true
+  },
+  {
+    "name": "Pornhub Árabe",
+    "ico": "PHA",
+    "cat": "Adulto",
+    "desc": "Conteúdo adulto com busca árabe — somente 18+",
+    "url": "https://www.pornhub.com/video/search?search=arab",
+    "adult": true
   }
 ]
