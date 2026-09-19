@@ -1,7 +1,7 @@
 {
   "versionCode": 16,
   "versionName": "1.4.2",
-  "apkUrl": "https://raw.githubusercontent.com/juliovianadeoliveira-source/jstech-prime-site/main/updates/JSTech-Privado-latest.apk",
+  "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
   "sha256": "091fdede2314d28cba13d4f6c2b016dbf114a770b5b8540a0e51a0b7f4ac64ba",
-  "notes": "Inclui SuperLive Web Online, Yam Live Web e Anime AI Chat. Corrige CraftAura para o redirecionamento HTTP somente nesse domínio e mantém o instalador direto do Android, sem ES File Explorer."
+  "notes": "Corrige instalação para usar o instalador do Android, libera CraftAura no redirecionamento HTTP específico e inclui SuperLive Web Online, Yam Live Web e Anime AI Chat. Mantém o catálogo +18 remoto."
 }
