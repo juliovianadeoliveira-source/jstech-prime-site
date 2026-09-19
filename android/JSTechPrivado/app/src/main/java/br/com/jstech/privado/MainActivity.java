@@ -61,6 +61,8 @@ public class MainActivity extends Activity {
     private static final String INSTALL_STATUS_ACTION = "br.com.jstech.privado.INSTALL_STATUS";
 
     private WebView webView;
+    private FrameLayout webContainer;
+    private WebView popupWebView;
     private TextView domainView;
     private ProgressBar progressBar;
     private View fullScreenView;
@@ -127,19 +129,32 @@ public class MainActivity extends Activity {
         progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
         progressBar.setMax(100);
 
+        webContainer = new FrameLayout(this);
         webView = new WebView(this);
         webView.setBackgroundColor(Color.rgb(6, 11, 22));
+        webContainer.addView(webView, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
 
         root.addView(bar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(54)));
         root.addView(progressBar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(3)));
-        root.addView(webView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        root.addView(webContainer, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
         setContentView(root);
 
         back.setOnClickListener(v -> {
-            if (webView.canGoBack()) webView.goBack();
-            else loadHomePage();
+            if (popupWebView != null) {
+                if (popupWebView.canGoBack()) popupWebView.goBack();
+                else closePopupWebView(false);
+            } else if (webView.canGoBack()) {
+                webView.goBack();
+            } else {
+                loadHomePage();
+            }
         });
-        home.setOnClickListener(v -> loadHomePage());
+        home.setOnClickListener(v -> {
+            closePopupWebView(false);
+            loadHomePage();
+        });
         update.setOnClickListener(v -> checkForUpdates(true));
         reload.setOnClickListener(v -> {
             checkForUpdates(true);
@@ -173,7 +188,7 @@ public class MainActivity extends Activity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
-        settings.setDatabaseEnabled(false);
+        settings.setDatabaseEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setSaveFormData(false);
         settings.setAllowFileAccess(false);
@@ -250,29 +265,99 @@ public class MainActivity extends Activity {
 
             @Override
             public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+                closePopupWebView(false);
+
                 WebView popup = new WebView(MainActivity.this);
+                popupWebView = popup;
+                popup.setBackgroundColor(Color.rgb(6, 11, 22));
+
                 WebSettings popupSettings = popup.getSettings();
                 popupSettings.setJavaScriptEnabled(true);
                 popupSettings.setDomStorageEnabled(true);
+                popupSettings.setDatabaseEnabled(true);
+                popupSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+                popupSettings.setSaveFormData(false);
+                popupSettings.setAllowFileAccess(false);
+                popupSettings.setAllowContentAccess(false);
+                popupSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+                popupSettings.setSupportMultipleWindows(true);
                 popupSettings.setUserAgentString(webView.getSettings().getUserAgentString());
+                popupSettings.setMediaPlaybackRequiresUserGesture(true);
+                popupSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+                popupSettings.setGeolocationEnabled(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    popupSettings.setSafeBrowsingEnabled(true);
+                }
+
+                CookieManager cookieManager = CookieManager.getInstance();
+                cookieManager.setAcceptCookie(true);
+                cookieManager.setAcceptThirdPartyCookies(popup, true);
+
+                popup.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength) ->
+                        Toast.makeText(MainActivity.this,
+                                "Downloads de sites estão bloqueados no modo privado.",
+                                Toast.LENGTH_LONG).show());
 
                 popup.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView child, WebResourceRequest request) {
                         Uri uri = request.getUrl();
-                        child.stopLoading();
-                        child.destroy();
-                        return handleNavigation(webView, uri);
+                        String scheme = uri.getScheme();
+                        if ("https".equalsIgnoreCase(scheme) || "http".equalsIgnoreCase(scheme)) {
+                            return false;
+                        }
+                        Toast.makeText(MainActivity.this,
+                                "Este tipo de link está bloqueado no modo privado.",
+                                Toast.LENGTH_LONG).show();
+                        return true;
                     }
 
                     @Override
                     @SuppressWarnings("deprecation")
                     public boolean shouldOverrideUrlLoading(WebView child, String url) {
-                        child.stopLoading();
-                        child.destroy();
-                        return handleNavigation(webView, Uri.parse(url));
+                        Uri uri = Uri.parse(url);
+                        String scheme = uri.getScheme();
+                        if ("https".equalsIgnoreCase(scheme) || "http".equalsIgnoreCase(scheme)) {
+                            return false;
+                        }
+                        Toast.makeText(MainActivity.this,
+                                "Este tipo de link está bloqueado no modo privado.",
+                                Toast.LENGTH_LONG).show();
+                        return true;
+                    }
+
+                    @Override
+                    public void onPageStarted(WebView child, String url, android.graphics.Bitmap favicon) {
+                        showDomain(url);
+                        super.onPageStarted(child, url, favicon);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView child, String url) {
+                        showDomain(url);
+                        super.onPageFinished(child, url);
+                    }
+
+                    @Override
+                    public void onReceivedSslError(WebView child, SslErrorHandler handler, SslError error) {
+                        handler.cancel();
+                        Toast.makeText(MainActivity.this,
+                                "Conexão insegura bloqueada.",
+                                Toast.LENGTH_LONG).show();
                     }
                 });
+
+                popup.setWebChromeClient(new WebChromeClient() {
+                    @Override
+                    public void onCloseWindow(WebView window) {
+                        closePopupWebView(true);
+                    }
+                });
+
+                webContainer.addView(popup, new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                popup.bringToFront();
 
                 WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
                 transport.setWebView(popup);
@@ -310,6 +395,39 @@ public class MainActivity extends Activity {
         }
         Toast.makeText(this, "Este tipo de link está bloqueado no modo privado.", Toast.LENGTH_LONG).show();
         return true;
+    }
+
+    private void closePopupWebView(boolean reloadMainPage) {
+        if (popupWebView == null) return;
+
+        WebView popup = popupWebView;
+        popupWebView = null;
+
+        try {
+            popup.stopLoading();
+            popup.loadUrl("about:blank");
+            popup.clearHistory();
+            popup.clearFormData();
+            if (webContainer != null) webContainer.removeView(popup);
+            popup.removeAllViews();
+            popup.destroy();
+        } catch (Exception ignored) {
+        }
+
+        if (webView != null) {
+            try {
+                showDomain(webView.getUrl());
+                String url = webView.getUrl();
+                String host = url == null ? null : Uri.parse(url).getHost();
+                if (reloadMainPage && url != null &&
+                        !"jstech.local".equalsIgnoreCase(host) &&
+                        ("https".equalsIgnoreCase(Uri.parse(url).getScheme()) ||
+                         "http".equalsIgnoreCase(Uri.parse(url).getScheme()))) {
+                    webView.reload();
+                }
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     private void loadRemoteCatalog() {
@@ -783,6 +901,7 @@ public class MainActivity extends Activity {
     }
 
     private void startFreshPrivateSession() {
+        closePopupWebView(false);
         webView.clearHistory();
         webView.clearCache(true);
         webView.clearFormData();
@@ -795,6 +914,7 @@ public class MainActivity extends Activity {
     }
 
     private void clearPrivateSession(boolean closeAfter) {
+        closePopupWebView(false);
         webView.stopLoading();
         webView.loadUrl("about:blank");
         webView.clearHistory();
@@ -844,9 +964,16 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (fullScreenView != null) hideFullScreenVideo();
-        else if (webView.canGoBack()) webView.goBack();
-        else clearPrivateSession(true);
+        if (fullScreenView != null) {
+            hideFullScreenVideo();
+        } else if (popupWebView != null) {
+            if (popupWebView.canGoBack()) popupWebView.goBack();
+            else closePopupWebView(false);
+        } else if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            clearPrivateSession(true);
+        }
     }
 
     @Override
@@ -889,6 +1016,8 @@ public class MainActivity extends Activity {
             if (installStatusReceiver != null) unregisterReceiver(installStatusReceiver);
         } catch (Exception ignored) {
         }
+
+        closePopupWebView(false);
 
         if (webView != null) {
             webView.stopLoading();
