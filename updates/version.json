@@ -1,7 +1,7 @@
 {
-  "versionCode": 18,
-  "versionName": "1.4.4",
+  "versionCode": 20,
+  "versionName": "1.4.6",
   "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
-  "sha256": "c221eaa2154311425b9615a85eea9d33c78513f282f8ad101303effe925fda91",
-  "notes": "Adiciona as categorias Anime IA e Vídeo IA com 21 atalhos, incluindo Cling AI na pasta Vídeo IA. Mantém as correções do instalador do Android e do CraftAura."
+  "sha256": "7a53019aa488fc6b06f925411f2d3cafa3eaadf8f0e4c8c6e2a17cffa82d15e7",
+  "notes": "Adiciona Anime IA e Vídeo IA, mantém os novos atalhos 18+ e corrige verificadores de idade que abriam tela branca, exibindo popups dentro do JSTech Privado."
 }
