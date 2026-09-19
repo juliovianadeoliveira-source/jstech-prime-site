@@ -43,6 +43,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -439,36 +441,73 @@ public class MainActivity extends Activity {
     }
 
     private void startUpdateDownload(String apkUrl, String sha256) {
-        try {
-            File dir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-            if (dir != null) {
-                File old = new File(dir, "JSTech-Privado-update.apk");
-                if (old.exists()) old.delete();
+        updateExpectedSha256 = sha256 == null ? "" : sha256.trim().toLowerCase(Locale.ROOT);
+        Toast.makeText(this, "Baixando atualização dentro do JSTech Privado...", Toast.LENGTH_SHORT).show();
+
+        new Thread(() -> {
+            HttpURLConnection connection = null;
+            File apkFile = new File(getCacheDir(), "JSTech-Privado-update.apk");
+            try {
+                if (apkFile.exists()) apkFile.delete();
+
+                URL url = new URL(apkUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setConnectTimeout(15000);
+                connection.setReadTimeout(30000);
+                connection.setUseCaches(false);
+                connection.setInstanceFollowRedirects(true);
+                connection.setRequestProperty("Accept", "application/vnd.android.package-archive");
+
+                int code = connection.getResponseCode();
+                if (code < 200 || code >= 300) throw new Exception("HTTP " + code);
+
+                try (InputStream input = connection.getInputStream();
+                     FileOutputStream output = new FileOutputStream(apkFile)) {
+                    byte[] buffer = new byte[16384];
+                    int read;
+                    while ((read = input.read(buffer)) != -1) {
+                        output.write(buffer, 0, read);
+                    }
+                    output.flush();
+                }
+
+                if (apkFile.length() <= 0) throw new Exception("APK vazio");
+
+                if (!updateExpectedSha256.isEmpty()) {
+                    String actual = sha256(apkFile);
+                    if (!updateExpectedSha256.equalsIgnoreCase(actual)) {
+                        apkFile.delete();
+                        throw new SecurityException("SHA-256 inválido");
+                    }
+                }
+
+                runOnUiThread(() -> {
+                    try {
+                        installWithAndroidPackageInstaller(apkFile);
+                    } catch (Exception error) {
+                        Toast.makeText(
+                                MainActivity.this,
+                                "Não foi possível abrir o instalador do Android.",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                });
+            } catch (SecurityException error) {
+                runOnUiThread(() -> Toast.makeText(
+                        MainActivity.this,
+                        "A atualização não passou na verificação de segurança.",
+                        Toast.LENGTH_LONG
+                ).show());
+            } catch (Exception error) {
+                runOnUiThread(() -> Toast.makeText(
+                        MainActivity.this,
+                        "Não foi possível baixar a atualização.",
+                        Toast.LENGTH_LONG
+                ).show());
+            } finally {
+                if (connection != null) connection.disconnect();
             }
-
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
-            request.setTitle("JSTech Privado");
-            request.setDescription("Baixando atualização...");
-            request.setMimeType("application/vnd.android.package-archive");
-            request.setNotificationVisibility(
-                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-            );
-            request.setAllowedOverMetered(true);
-            request.setAllowedOverRoaming(true);
-            request.setDestinationInExternalFilesDir(
-                    this,
-                    Environment.DIRECTORY_DOWNLOADS,
-                    "JSTech-Privado-update.apk"
-            );
-
-            DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-            updateExpectedSha256 = sha256 == null ? "" : sha256.trim().toLowerCase(Locale.ROOT);
-            updateDownloadId = manager.enqueue(request);
-
-            Toast.makeText(this, "Baixando atualização...", Toast.LENGTH_SHORT).show();
-        } catch (Exception error) {
-            Toast.makeText(this, "Não foi possível iniciar a atualização.", Toast.LENGTH_LONG).show();
-        }
+        }).start();
     }
 
     private void registerUpdateReceiver() {
@@ -519,6 +558,55 @@ public class MainActivity extends Activity {
                     "Não foi possível iniciar o instalador do Android.",
                     Toast.LENGTH_LONG
             ).show();
+        }
+    }
+
+    private void installWithAndroidPackageInstaller(File apkFile) throws Exception {
+        PackageInstaller packageInstaller = getPackageManager().getPackageInstaller();
+        PackageInstaller.SessionParams params =
+                new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
+        params.setAppPackageName(getPackageName());
+
+        int sessionId = packageInstaller.createSession(params);
+        PackageInstaller.Session session = packageInstaller.openSession(sessionId);
+
+        try {
+            try (InputStream input = new FileInputStream(apkFile);
+                 OutputStream output = session.openWrite("JSTech-Privado-update.apk", 0, apkFile.length())) {
+                byte[] buffer = new byte[16384];
+                int read;
+                while ((read = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                }
+                session.fsync(output);
+            }
+
+            Intent statusIntent = new Intent(INSTALL_STATUS_ACTION);
+            statusIntent.setPackage(getPackageName());
+
+            int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                flags |= PendingIntent.FLAG_MUTABLE;
+            }
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    this,
+                    sessionId,
+                    statusIntent,
+                    flags
+            );
+
+            session.commit(pendingIntent.getIntentSender());
+            Toast.makeText(
+                    this,
+                    "Atualização pronta. Confirme no instalador do Android.",
+                    Toast.LENGTH_LONG
+            ).show();
+        } finally {
+            try {
+                session.close();
+            } catch (Exception ignored) {
+            }
         }
     }
 
@@ -632,6 +720,19 @@ public class MainActivity extends Activity {
         } else {
             registerReceiver(installStatusReceiver, filter);
         }
+    }
+
+    private String sha256(File file) throws Exception {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        try (InputStream input = new FileInputStream(file)) {
+            byte[] buffer = new byte[16384];
+            int read;
+            while ((read = input.read(buffer)) != -1) digest.update(buffer, 0, read);
+        }
+
+        StringBuilder out = new StringBuilder();
+        for (byte b : digest.digest()) out.append(String.format(Locale.ROOT, "%02x", b));
+        return out.toString();
     }
 
     private String sha256(Uri uri) throws Exception {
