@@ -1,7 +1,7 @@
 {
-  "versionCode": 18,
-  "versionName": "1.4.4",
+  "versionCode": 21,
+  "versionName": "1.4.7",
   "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
-  "sha256": "c221eaa2154311425b9615a85eea9d33c78513f282f8ad101303effe925fda91",
-  "notes": "Adiciona as categorias Anime IA e Vídeo IA com 21 atalhos, incluindo Cling AI na pasta Vídeo IA. Mantém as correções do instalador do Android e do CraftAura."
+  "sha256": "2d14a489ef5ce0b3ac81ae802293733915b12356bebd4d84cf02be29f719e7bb",
+  "notes": "Corrige o envio de fotos no CraftAura e em outros sites, habilita o seletor da galeria, adiciona OnlyFans e amplia o catálogo adulto 18+."
 }
