@@ -462,5 +462,141 @@
     "desc": "Plataforma de criadores adultos — exige confirmação de maioridade",
     "url": "https://onlyfans.com/",
     "adult": true
+  },
+  {
+    "name": "Fansly",
+    "ico": "FS",
+    "desc": "Plataforma de criadores e assinaturas — somente adultos",
+    "url": "https://fansly.com/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "LoyalFans",
+    "ico": "LF",
+    "desc": "Criadores, assinaturas e transmissões — somente adultos",
+    "url": "https://www.loyalfans.com/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "JustForFans",
+    "ico": "JF",
+    "desc": "Plataforma de criadores independentes — somente adultos",
+    "url": "https://justfor.fans/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "FanCentro",
+    "ico": "FC",
+    "desc": "Perfis e assinaturas de criadores — somente adultos",
+    "url": "https://fancentro.com/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "ManyVids",
+    "ico": "MV",
+    "desc": "Vídeos e lojas oficiais de criadores — somente adultos",
+    "url": "https://www.manyvids.com/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "Clips4Sale",
+    "ico": "C4",
+    "desc": "Loja de vídeos de criadores verificados — somente adultos",
+    "url": "https://www.clips4sale.com/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "iWantClips",
+    "ico": "IW",
+    "desc": "Conteúdo e lojas de criadores — somente adultos",
+    "url": "https://iwantclips.com/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "AdmireMe",
+    "ico": "AM",
+    "desc": "Assinaturas e conteúdo de criadores — somente adultos",
+    "url": "https://admireme.vip/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "Fanvue",
+    "ico": "FV",
+    "desc": "Plataforma de assinaturas para criadores adultos",
+    "url": "https://www.fanvue.com/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "SextPanther",
+    "ico": "SP",
+    "desc": "Mensagens e criadores verificados — somente adultos",
+    "url": "https://www.sextpanther.com/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "Candy AI",
+    "ico": "CAI",
+    "desc": "Companheiros e chat por IA — uso exclusivo para maiores de 18 anos",
+    "url": "https://candy.ai/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "CrushOn AI",
+    "ico": "CR",
+    "desc": "Chat com personagens por IA — área exclusiva para adultos",
+    "url": "https://crushon.ai/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "DreamGF",
+    "ico": "DG",
+    "desc": "Companheiro virtual e chat por IA — somente adultos",
+    "url": "https://dreamgf.ai/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "Kupid AI",
+    "ico": "KA",
+    "desc": "Chat com companheiros virtuais — somente adultos",
+    "url": "https://www.kupid.ai/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "GirlfriendGPT",
+    "ico": "GG",
+    "desc": "Personagens e conversa por IA — somente adultos",
+    "url": "https://www.gptgirlfriend.online/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "SpicyChat AI",
+    "ico": "SCI",
+    "desc": "Chat com personagens por IA — exige maioridade",
+    "url": "https://spicychat.ai/",
+    "cat": "Adulto",
+    "adult": true
+  },
+  {
+    "name": "JanitorAI",
+    "ico": "JAI",
+    "desc": "Chat com personagens criados por usuários — respeite as regras 18+",
+    "url": "https://janitorai.com/",
+    "cat": "Adulto",
+    "adult": true
   }
 ]
