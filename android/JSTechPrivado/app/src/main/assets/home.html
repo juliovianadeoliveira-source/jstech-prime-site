@@ -3,77 +3,224 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>JSTech Privado — IA de Vídeo</title>
+<title>JSTech Privado</title>
 <style>
-:root{color-scheme:dark;--bg:#06101f;--p:#0d1b2d;--l:#233751;--t:#f8fafc;--m:#9eb1c9;--a:#55d8ff;--b:#8668ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% -10%,#173957 0,transparent 38%),linear-gradient(#071321,#040914);color:var(--t);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.w{max-width:980px;margin:auto;padding:20px 14px 44px}.brand{display:flex;gap:12px;align-items:center;margin-bottom:16px}.logo{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-weight:900;background:linear-gradient(135deg,var(--a),var(--b));color:#04101c}.brand h1{font-size:21px;margin:0}.brand p{font-size:12px;color:var(--m);margin:3px 0}.hero{background:linear-gradient(145deg,#10243a,#0a1628);border:1px solid var(--l);border-radius:20px;padding:18px}.hero h2{font-size:23px;margin:0 0 7px}.hero p{color:var(--m);margin:0;line-height:1.45}.row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}input{width:100%;border:1px solid #2b4568;background:#07111f;color:white;border-radius:12px;padding:13px;font-size:15px;outline:none}button{border:0;border-radius:12px;padding:0 16px;min-height:46px;font-weight:800;background:linear-gradient(135deg,var(--a),#8090ff);color:#04101c}.custom{margin-top:11px;padding:11px;border:1px dashed #315071;border-radius:14px}.custom b{font-size:13px}.custom small{display:block;color:var(--m);margin-top:7px}.head{display:flex;justify-content:space-between;align-items:end;margin:24px 3px 10px}.head h3{margin:0;font-size:17px}.head span{font-size:11px;color:var(--m)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{display:block;text-decoration:none;color:inherit;background:linear-gradient(155deg,#10233a,#091525);border:1px solid var(--l);border-radius:15px;padding:13px;min-height:105px}.card:active{transform:scale(.98)}.card.featured{border-color:#49cbea;background:linear-gradient(145deg,#12324c,#121b34)}.top{display:flex;align-items:center;gap:9px}.ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#162d47;border:1px solid #315071;color:#91eaff;font-weight:900}.name{font-weight:850;font-size:14px}.tag{font-size:9px;color:#8df0bd;border:1px solid #27674f;background:#0d2d25;border-radius:99px;padding:2px 6px;margin-left:5px}.desc{font-size:11px;line-height:1.35;color:var(--m);margin:9px 0 0}.empty{display:none;text-align:center;color:var(--m);padding:28px}.foot{margin-top:28px;color:#7f94ad;font-size:10px;line-height:1.5;text-align:center}@media(min-width:720px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.w{padding:28px 22px 60px}}@media(max-width:390px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+:root{color-scheme:dark;--bg:#050a12;--panel:#0b1625;--panel2:#0e1d30;--line:#213752;--txt:#f5f8fc;--muted:#9db0c7;--blue:#35b8ff;--violet:#8069ff;--green:#63e6a7}
+*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at 15% -10%,#14395a 0,transparent 34%),linear-gradient(#07111e,#040811 70%);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100%}
+.wrap{max-width:1100px;margin:auto;padding:16px 13px 50px}.brand{display:flex;align-items:center;gap:12px;margin:2px 2px 14px}.logo{width:58px;height:58px;border-radius:16px;overflow:hidden;border:1px solid #2688d7;box-shadow:0 0 25px #1188ff55}.logo img{width:100%;height:100%;object-fit:cover}.brand h1{margin:0;font-size:22px}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.hero{padding:17px;border-radius:20px;background:linear-gradient(145deg,#102740,#091525);border:1px solid var(--line);box-shadow:0 12px 40px #0007}.hero h2{font-size:22px;margin:0 0 6px}.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:13px 0}.stat{padding:10px;border-radius:13px;background:#071321;border:1px solid #1e344f;text-align:center}.stat strong{display:block;font-size:18px;color:#7ddcff}.stat span{font-size:9px;color:var(--muted)}
+.searchrow{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px}input{width:100%;min-height:46px;padding:0 13px;border:1px solid #2b4568;border-radius:13px;background:#06101d;color:#fff;font-size:15px;outline:none}button{min-height:46px;border:0;border-radius:13px;padding:0 15px;font-weight:800;background:linear-gradient(135deg,var(--blue),#7486ff);color:#03101c}.custom{margin-top:10px;padding:10px;border:1px dashed #315070;border-radius:14px}.custom b{font-size:12px}.custom small{display:block;margin-top:6px;color:var(--muted);font-size:10px}
+.chips{display:flex;gap:7px;overflow:auto;padding:15px 1px 8px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chip{white-space:nowrap;min-height:36px;padding:0 12px;background:#0c1929;color:#bed0e4;border:1px solid #223b59;font-size:11px}.chip.active{background:linear-gradient(135deg,#168bea,#6955f4);color:white;border-color:#4da8ff}
+.head{display:flex;justify-content:space-between;align-items:end;margin:13px 2px 9px}.head h3{margin:0;font-size:16px}.head span{font-size:10px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{display:block;text-decoration:none;color:inherit;padding:12px;border-radius:15px;background:linear-gradient(150deg,#0e2035,#081321);border:1px solid var(--line);min-height:103px}.card:active{transform:scale(.98)}.card.ai{border-color:#305684}.card.cling{border-color:#48cfff;box-shadow:inset 0 0 22px #1b86c926}.top{display:flex;gap:9px;align-items:center}.ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#132b46;border:1px solid #315275;color:#8fe5ff;font-weight:900;font-size:11px;flex:none}.nm{font-weight:850;font-size:13px;line-height:1.2}.tag{display:inline-block;margin-left:5px;font-size:8px;border:1px solid #2f795d;color:#8ff2bd;background:#0e2c24;padding:2px 5px;border-radius:20px}.desc{font-size:10px;line-height:1.35;color:var(--muted);margin:8px 0 0}.src{margin-top:6px;color:#7190ae;font-size:8px}.pager{display:flex;justify-content:center;align-items:center;gap:9px;margin:17px 0}.pager button{min-width:80px}.pager span{font-size:11px;color:var(--muted)}.empty{display:none;text-align:center;padding:35px 10px;color:var(--muted)}.footer{text-align:center;margin-top:25px;font-size:9px;color:#6f849c;line-height:1.45}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.wrap{padding:24px 18px 60px}}@media(min-width:950px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:370px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr 1fr}.stat strong{font-size:15px}}
 </style>
 </head>
 <body>
-<div class="w">
-<div class="brand"><div class="logo">JS</div><div><h1>JSTech Privado</h1><p>Navegador privado + central de IA de vídeo</p></div></div>
-<section class="hero"><h2>Crie vídeos com IA em um só lugar</h2><p>Escolha um serviço. Ele abre dentro do próprio JSTech Privado. Use a busca para achar rápido.</p><div class="row"><input id="q" type="search" placeholder="Buscar: Kling, Runway, avatar, anúncios..."><button onclick="clearQ()">Limpar</button></div><div class="custom"><b>Abrir qualquer site</b><div class="row"><input id="u" inputmode="url" placeholder="Cole um link https://..."><button onclick="openU()">Abrir</button></div><small>Se aparecer uma IA nova amanhã, basta colar o link aqui.</small></div></section>
-<div id="sections"></div><div class="empty" id="empty">Nenhum serviço encontrado. Cole qualquer link no campo acima.</div>
-<div class="foot">JSTech Privado não é afiliado aos serviços listados. Cada site tem regras, planos e disponibilidade próprios. Alguns logins podem bloquear WebView.</div>
+<div class="wrap">
+  <div class="brand"><div class="logo"><img src="data:image/webp;base64,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" alt="JSTech Privado"></div><div><h1>JSTech Privado</h1><p>Seu portal completo dentro do aplicativo</p></div></div>
+  <section class="hero">
+    <h2>Tudo em um só lugar</h2>
+    <p>Recuperei a central completa e acrescentei as novas ferramentas de IA sem remover o conteúdo antigo.</p>
+    <div class="stats"><div class="stat"><strong>1.156</strong><span>CONTEÚDOS ORIGINAIS</span></div><div class="stat"><strong>47</strong><span>NOVAS IAs</span></div><div class="stat"><strong>1.203</strong><span>TOTAL</span></div></div>
+    <div class="searchrow"><input id="q" type="search" placeholder="Pesquisar em 1.203 itens..."><button onclick="clearSearch()">Limpar</button></div>
+    <div class="custom"><b>Abrir qualquer site</b><div class="searchrow"><input id="u" inputmode="url" placeholder="Cole um endereço https://..."><button onclick="openCustom()">Abrir</button></div><small>Qualquer site novo também pode ser aberto dentro do JSTech Privado.</small></div>
+  </section>
+  <div class="chips" id="chips"></div>
+  <div class="head"><h3 id="title">Todos os conteúdos</h3><span id="count"></span></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">Nada encontrado. Tente outra pesquisa.</div>
+  <div class="pager" id="pager"><button id="prev" onclick="prevPage()">← Anterior</button><span id="pageInfo"></span><button id="next" onclick="nextPage()">Próxima →</button></div>
+  <div class="footer">Os serviços pertencem aos respectivos proprietários. O JSTech Privado apenas organiza atalhos e pesquisas dentro do navegador interno.</div>
 </div>
 <script>
-const groups=[
-["Geradores de vídeo e modelos",[
-["Cling AI","CL","Criador de imagem e vídeo por IA — link enviado por você.","https://cling-ai.com/lp/preview/video/1ngn8qlu?utm_medium=paid&utm_source=fb&utm_id=52605993868997&utm_content=52605993886397&utm_term=52605993872997&utm_campaign=52605993868997","cling ai image video creator",1],
-["Runway","RW","Texto, imagem e vídeo para vídeo e edição generativa.","https://app.runwayml.com/","runway gen cinema text image"],
-["Kling AI","KL","Texto ou imagem para vídeo e recursos cinematográficos.","https://kling.ai/","kling ai video imagem texto cinema"],
-["Hailuo AI","HL","Texto, imagem e referências com modelos MiniMax e outros.","https://hailuoai.video/create","hailuo minimax ai video"],
-["Pika","PK","Vídeo por IA, efeitos e extensão de clipes.","https://pika.art/","pika ai video effects"],
-["Luma Dream Machine","LU","Criação e transformação de vídeos com IA.","https://lumalabs.ai/dream-machine","luma dream machine ray"],
-["PixVerse","PX","Texto e imagem para vídeo, efeitos e personagens.","https://app.pixverse.ai/","pixverse ai video"],
-["Vidu","VD","Vídeo a partir de texto, imagens e referências.","https://www.vidu.com/","vidu ai video"],
-["Google Flow","GF","Criação cinematográfica com IA do Google.","https://labs.google/fx/tools/flow/","google flow veo video"],
-["Gemini","GM","Criação multimodal e recursos de geração de vídeo.","https://gemini.google.com/","gemini google video"],
-["Adobe Firefly","FF","Geração e edição de vídeo com IA.","https://firefly.adobe.com/","adobe firefly video"],
-["Krea","KR","Vários modelos de vídeo em uma só interface.","https://www.krea.ai/features/ai-video-generator","krea ai video veo kling runway"],
-["Higgsfield","HF","Vídeo cinematográfico, efeitos e controle de câmera.","https://higgsfield.ai/","higgsfield cinema effects"],
-["LTX Studio","LTX","Roteiro, storyboard e produção de cenas com IA.","https://ltx.io/studio","ltx studio storyboard film"],
-["Kaiber","KB","Vídeo, música e animações visuais com IA.","https://kaiber.ai/","kaiber ai video music"],
-["Dreamina","DR","Gerador da CapCut com Seedance e outros modelos.","https://dreamina.capcut.com/tools/ai-video-generator","dreamina capcut seedance"],
-["Freepik AI Video","FP","Texto ou imagem para vídeo no ecossistema Freepik.","https://www.freepik.com/ai/video-generator","freepik ai video"],
-["Leonardo AI","LE","Criação visual e recursos de movimento/vídeo.","https://leonardo.ai/","leonardo ai motion video"],
-["Pollo AI","PO","Central de geração com múltiplos modelos e efeitos.","https://pollo.ai/","pollo ai video models"],
-["Haiper","HA","Geração e animação de vídeo por IA.","https://haiper.ai/","haiper ai video"],
-["Moonvalley","MV","Modelos de vídeo generativo para produção criativa.","https://www.moonvalley.com/","moonvalley marey video"],
-["Genmo","GE","Criação de vídeo generativo e experimentação.","https://www.genmo.ai/","genmo ai video"]
-]],
-["Avatares, apresentadores e fala",[
-["HeyGen","HG","Avatares realistas, tradução, voz e roteiro para vídeo.","https://www.heygen.com/","heygen avatar presenter"],
-["Synthesia","SY","Apresentadores de IA, narração e vídeos empresariais.","https://www.synthesia.io/","synthesia avatar"],
-["AI Studios","AS","Avatares e vídeos falados com IA.","https://www.aistudios.com/","ai studios deepbrain avatar"],
-["D-ID","DI","Fotos falantes, avatares e agentes em vídeo.","https://www.d-id.com/","d-id talking avatar"],
-["Colossyan","CO","Apresentadores de IA para cursos e empresas.","https://www.colossyan.com/","colossyan avatar training"],
-["Elai","EL","Texto para vídeo com avatares e apresentações.","https://elai.io/","elai avatar presenter"],
-["Vidnoz","VZ","Avatares, voz, templates e geração de vídeo.","https://www.vidnoz.com/","vidnoz avatar video"],
-["AKOOL","AK","Avatares e ferramentas criativas de vídeo com IA.","https://akool.com/","akool avatar video"],
-["Captions","CA","Criação, edição e avatares para vídeos sociais.","https://www.captions.ai/","captions avatar video"]
-]],
-["Vídeos completos, anúncios e edição com IA",[
-["CapCut","CC","Editor e gerador com várias ferramentas de IA.","https://www.capcut.com/","capcut ai video editor"],
-["VEED","VE","Texto, imagem e vídeo para vídeo com edição online.","https://www.veed.io/tools/ai-video","veed ai video"],
-["InVideo AI","IV","Ideias e roteiros transformados em vídeos completos.","https://invideo.io/ai/","invideo ai script"],
-["Canva AI Video","CV","Vídeo com IA integrado ao editor Canva.","https://www.canva.com/ai-video-generator/","canva ai video"],
-["Fliki","FL","Texto, blog e roteiro para vídeo com narração.","https://fliki.ai/","fliki text video voice"],
-["Pictory","PI","Roteiros e conteúdos longos transformados em vídeo.","https://pictory.ai/","pictory script video"],
-["Renderforest","RF","Vídeos por IA, templates e produção online.","https://www.renderforest.com/ai-video-generator","renderforest ai video"],
-["FlexClip","FX","Gerador e editor online com recursos de IA.","https://www.flexclip.com/tools/ai-video-generator.html","flexclip ai video"],
-["Animaker","AN","Vídeos animados e criação assistida por IA.","https://www.animaker.com/","animaker ai animation"],
-["Steve AI","ST","Texto, voz e roteiro para vídeos e animações.","https://www.steve.ai/","steve ai text video"],
-["Creatify","CR","Anúncios e vídeos de produto a partir de links e roteiros.","https://creatify.ai/","creatify ads product"],
-["Descript","DS","Edição de vídeo por texto, voz e automações de IA.","https://www.descript.com/","descript video editor"],
-["OpusClip","OP","Transforma vídeos longos em cortes curtos.","https://www.opus.pro/","opusclip shorts"],
-["Filmora AI","FM","Gerador e editor com ferramentas de IA.","https://filmora.wondershare.com/ai-video-generator.html","filmora ai video"],
-["Media.io","MI","Ferramentas online para gerar e editar vídeo.","https://www.media.io/ai-video-generator.html","media io ai video"],
-["Fotor AI Video","FO","Texto e imagem para vídeo dentro do Fotor.","https://www.fotor.com/ai-video-generator/","fotor ai video"]
-]]
+const directSites = [
+["Google","G","Pesquisa","Pesquisa na internet","https://www.google.com/"],
+["Bing","B","Pesquisa","Pesquisa Microsoft","https://www.bing.com/"],
+["YouTube","YT","Vídeos","Vídeos e canais","https://www.youtube.com/"],
+["Facebook","FB","Redes sociais","Rede social","https://www.facebook.com/"],
+["Instagram","IG","Redes sociais","Fotos, Reels e mensagens","https://www.instagram.com/"],
+["TikTok","TT","Redes sociais","Vídeos curtos","https://www.tiktok.com/"],
+["X","X","Redes sociais","Notícias e conversas","https://x.com/"],
+["WhatsApp","WA","Comunicação","Mensagens","https://web.whatsapp.com/"],
+["Gmail","GM","Comunicação","E-mail Google","https://mail.google.com/"],
+["Outlook","OL","Comunicação","E-mail Microsoft","https://outlook.live.com/"],
+["Telegram","TG","Comunicação","Mensagens Telegram Web","https://web.telegram.org/"],
+["Discord","DC","Comunicação","Comunidades e chat","https://discord.com/app"],
+["Netflix","NF","Entretenimento","Filmes e séries","https://www.netflix.com/"],
+["Prime Video","PV","Entretenimento","Filmes e séries","https://www.primevideo.com/"],
+["Disney+","D+","Entretenimento","Filmes e séries","https://www.disneyplus.com/"],
+["Max","MX","Entretenimento","Filmes e séries","https://www.max.com/"],
+["Globoplay","GP","Entretenimento","TV, filmes e séries","https://globoplay.globo.com/"],
+["Spotify","SP","Música & áudio","Música e podcasts","https://open.spotify.com/"],
+["Deezer","DZ","Música & áudio","Música","https://www.deezer.com/"],
+["SoundCloud","SC","Música & áudio","Música e áudio","https://soundcloud.com/"],
+["Twitch","TW","Vídeos","Lives e games","https://www.twitch.tv/"],
+["Google Maps","MAP","Serviços & mapas","Mapas e rotas","https://maps.google.com/"],
+["Google Earth","EAR","Serviços & mapas","Mapa 3D do mundo","https://earth.google.com/web/"],
+["Waze","WZ","Serviços & mapas","Trânsito e rotas","https://www.waze.com/live-map/"],
+["ChatGPT","AI","IA","Assistente de IA","https://chatgpt.com/"],
+["Gemini","GE","IA","IA do Google","https://gemini.google.com/"],
+["Claude","CLD","IA","Assistente Anthropic","https://claude.ai/"],
+["Perplexity","PX","IA","Pesquisa com IA","https://www.perplexity.ai/"],
+["Microsoft Copilot","CP","IA","Assistente Microsoft","https://copilot.microsoft.com/"],
+["Canva","CV","Imagens & design","Design online","https://www.canva.com/"],
+["CapCut","CC","Vídeos","Editor de vídeo","https://www.capcut.com/"],
+["Adobe Express","AE","Imagens & design","Design e edição","https://www.adobe.com/express/"],
+["GitHub","GH","Educação & trabalho","Código e projetos","https://github.com/"],
+["Stack Overflow","SO","Educação & trabalho","Perguntas de programação","https://stackoverflow.com/"],
+["LinkedIn","LI","Educação & trabalho","Carreira e negócios","https://www.linkedin.com/"],
+["Google Drive","GD","Serviços & mapas","Arquivos na nuvem","https://drive.google.com/"],
+["Google Photos","GF","Imagens & design","Fotos na nuvem","https://photos.google.com/"],
+["Google Tradutor","TR","Serviços & mapas","Tradução","https://translate.google.com/"],
+["Wikipedia","WK","Educação & trabalho","Enciclopédia","https://pt.wikipedia.org/"],
+["Coursera","CO","Educação & trabalho","Cursos online","https://www.coursera.org/"],
+["Udemy","UD","Educação & trabalho","Cursos online","https://www.udemy.com/"],
+["Khan Academy","KA","Educação & trabalho","Aulas gratuitas","https://pt.khanacademy.org/"],
+["G1","G1","Notícias","Notícias Brasil","https://g1.globo.com/"],
+["UOL","UOL","Notícias","Notícias e conteúdo","https://www.uol.com.br/"],
+["CNN Brasil","CNN","Notícias","Notícias","https://www.cnnbrasil.com.br/"],
+["BBC Brasil","BBC","Notícias","Notícias internacionais","https://www.bbc.com/portuguese"],
+["Globo Esporte","GE","Notícias","Esportes","https://ge.globo.com/"],
+["Mercado Livre","ML","Compras","Marketplace","https://www.mercadolivre.com.br/"],
+["Amazon Brasil","AMZ","Compras","Compras online","https://www.amazon.com.br/"],
+["Shopee","SH","Compras","Marketplace","https://shopee.com.br/"],
+["AliExpress","AX","Compras","Compras internacionais","https://pt.aliexpress.com/"],
+["OLX","OLX","Compras","Classificados","https://www.olx.com.br/"],
+["iFood","IF","Serviços & mapas","Delivery","https://www.ifood.com.br/"],
+["Booking","BK","Serviços & mapas","Hotéis e hospedagem","https://www.booking.com/"],
+["Airbnb","AB","Serviços & mapas","Hospedagem","https://www.airbnb.com.br/"],
+["XVideos","18+","Adulto","Conteúdo adulto — exige confirmação 18+","https://www.xvideos.com/"]
 ];
-const root=document.getElementById("sections"),cards=[];
-groups.forEach(g=>{const h=document.createElement("div");h.className="head";h.innerHTML="<h3>"+g[0]+"</h3><span>"+g[1].length+" serviços</span>";root.appendChild(h);const grid=document.createElement("div");grid.className="grid";g[1].forEach(x=>{const a=document.createElement("a");a.href=x[3];a.className="card"+(x[5]?" featured":"");a.dataset.k=(x[0]+" "+x[2]+" "+x[4]).toLowerCase();a.innerHTML='<div class="top"><div class="ico">'+x[1]+'</div><div class="name">'+x[0]+(x[5]?'<span class="tag">Seu link</span>':'')+'</div></div><p class="desc">'+x[2]+'</p>';grid.appendChild(a);cards.push(a)});root.appendChild(grid)});
-const q=document.getElementById("q");function filter(){const s=q.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");let n=0;cards.forEach(c=>{const k=c.dataset.k.normalize("NFD").replace(/[\u0300-\u036f]/g,"");const ok=!s||k.includes(s);c.style.display=ok?"block":"none";if(ok)n++});document.getElementById("empty").style.display=n?"none":"block"}function clearQ(){q.value="";filter();q.focus()}function openU(){let v=document.getElementById("u").value.trim();if(!v)return;if(!/^https?:\/\//i.test(v))v="https://"+v;location.href=v}q.addEventListener("input",filter);document.getElementById("u").addEventListener("keydown",e=>{if(e.key==="Enter")openU()});
+
+const aiSites = [
+["Cling AI","CL","IA","Imagem e vídeo por IA — seu link","https://cling-ai.com/lp/preview/video/1ngn8qlu?utm_medium=paid&utm_source=fb&utm_id=52605993868997&utm_content=52605993886397&utm_term=52605993872997&utm_campaign=52605993868997",1],
+["Runway","RW","IA","Vídeo e edição generativa","https://app.runwayml.com/"],
+["Kling AI","KL","IA","Texto ou imagem para vídeo","https://kling.ai/"],
+["Hailuo AI","HL","IA","Vídeo com modelos MiniMax","https://hailuoai.video/create"],
+["Pika","PK","IA","Geração de vídeo e efeitos","https://pika.art/"],
+["Luma Dream Machine","LU","IA","Vídeo generativo","https://lumalabs.ai/dream-machine"],
+["PixVerse","PV","IA","Imagem e texto para vídeo","https://app.pixverse.ai/"],
+["Vidu","VD","IA","Vídeo por texto e referência","https://www.vidu.com/"],
+["Google Flow","GF","IA","Criação cinematográfica com IA","https://labs.google/fx/tools/flow/"],
+["Gemini Vídeo","GM","IA","Recursos multimodais Google","https://gemini.google.com/"],
+["Adobe Firefly","FF","IA","Geração e edição de vídeo","https://firefly.adobe.com/"],
+["Krea","KR","IA","Múltiplos modelos de vídeo","https://www.krea.ai/features/ai-video-generator"],
+["Higgsfield","HF","IA","Vídeo e controle de câmera","https://higgsfield.ai/"],
+["LTX Studio","LTX","IA","Roteiro, storyboard e cenas","https://ltx.io/studio"],
+["Kaiber","KB","IA","Vídeo e animação visual","https://kaiber.ai/"],
+["Dreamina","DR","IA","Gerador de vídeo CapCut","https://dreamina.capcut.com/tools/ai-video-generator"],
+["Freepik AI Video","FP","IA","Texto e imagem para vídeo","https://www.freepik.com/ai/video-generator"],
+["Leonardo AI","LE","IA","Criação visual e movimento","https://leonardo.ai/"],
+["Pollo AI","PO","IA","Central de múltiplos modelos","https://pollo.ai/"],
+["Haiper","HA","IA","Geração e animação de vídeo","https://haiper.ai/"],
+["Moonvalley","MV","IA","Vídeo generativo","https://www.moonvalley.com/"],
+["Genmo","GN","IA","Vídeo generativo","https://www.genmo.ai/"],
+["HeyGen","HG","IA","Avatares, tradução e voz","https://www.heygen.com/"],
+["Synthesia","SY","IA","Apresentadores de IA","https://www.synthesia.io/"],
+["AI Studios","AS","IA","Avatares e vídeos falados","https://www.aistudios.com/"],
+["D-ID","DI","IA","Fotos falantes e avatares","https://www.d-id.com/"],
+["Colossyan","CO","IA","Apresentadores para cursos","https://www.colossyan.com/"],
+["Elai","EL","IA","Texto para vídeo com avatar","https://elai.io/"],
+["Vidnoz","VZ","IA","Avatares e templates","https://www.vidnoz.com/"],
+["AKOOL","AK","IA","Avatares e vídeo criativo","https://akool.com/"],
+["Captions","CA","IA","Criação e edição para social","https://www.captions.ai/"],
+["CapCut AI","CC","IA","Editor e recursos de IA","https://www.capcut.com/"],
+["VEED","VE","IA","Gerador e editor online","https://www.veed.io/tools/ai-video"],
+["InVideo AI","IV","IA","Roteiro para vídeo completo","https://invideo.io/ai/"],
+["Canva AI Video","CV","IA","Vídeo com IA no Canva","https://www.canva.com/ai-video-generator/"],
+["Fliki","FL","IA","Texto para vídeo com voz","https://fliki.ai/"],
+["Pictory","PI","IA","Conteúdo longo para vídeo","https://pictory.ai/"],
+["Renderforest","RF","IA","Vídeos e templates","https://www.renderforest.com/ai-video-generator"],
+["FlexClip","FX","IA","Gerador e editor online","https://www.flexclip.com/tools/ai-video-generator.html"],
+["Animaker","AN","IA","Vídeos animados","https://www.animaker.com/"],
+["Steve AI","ST","IA","Texto e voz para vídeo","https://www.steve.ai/"],
+["Creatify","CR","IA","Anúncios e vídeos de produto","https://creatify.ai/"],
+["Descript","DS","IA","Edição de vídeo por texto","https://www.descript.com/"],
+["OpusClip","OP","IA","Cortes curtos automáticos","https://www.opus.pro/"],
+["Filmora AI","FM","IA","Gerador e editor com IA","https://filmora.wondershare.com/ai-video-generator.html"],
+["Media.io","MI","IA","Gerar e editar vídeo online","https://www.media.io/ai-video-generator.html"],
+["Fotor AI Video","FO","IA","Texto e imagem para vídeo","https://www.fotor.com/ai-video-generator/"]
+];
+
+const topicGroups = {
+"Tecnologia":["Android","Samsung","iPhone","Windows","Linux","Redes de computadores","Wi-Fi","Starlink","Segurança digital","Programação"],
+"IA":["Inteligência artificial","ChatGPT","Gemini","Claude","Geração de vídeo com IA","Geração de imagem com IA","Automação com IA","Prompt engineering","Agentes de IA","Voz com IA"],
+"Vídeos":["Filmes","Séries","Streaming","Edição de vídeo","Câmeras","YouTube","YouTube Shorts","Instagram Reels","TikTok vídeos","Animação"],
+"Imagens & design":["Design gráfico","Logos","Fotografia","Edição de fotos","Figma","Canva design","Photoshop","Ilustração","Modelagem 3D","Arquitetura"],
+"Música & áudio":["Música","Podcasts","Áudio","Edição de áudio","DJ","Violão","Teclado musical","Bateria","Karaokê","Trilhas sonoras"],
+"Educação & trabalho":["Matemática","Português","Inglês","História","Geografia","Ciências","Física","Química","Biologia","ENEM"],
+"Negócios":["Empregos","Currículo","Vendas","Marketing","Empreendedorismo","MEI","Nota fiscal","Contabilidade","Excel","Gestão de clientes"],
+"Compras":["Celulares","Smart TVs","Computadores","Notebooks","TV Box","Roteadores","Câmeras de segurança","Ferramentas","Calçados","Eletrônicos"],
+"Serviços & mapas":["Viagens","Hotéis","Passagens","Restaurantes","Praias","Turismo","Mapas","CEP","Previsão do tempo","Trânsito"],
+"Notícias":["Notícias Brasil","Notícias Mundo","Futebol","Brasileirão","Libertadores","Champions League","Flamengo","Corinthians","Fórmula 1","UFC"]
+};
+
+const engines = [
+["Google","https://www.google.com/search?q="],
+["Google Imagens","https://www.google.com/search?tbm=isch&q="],
+["YouTube","https://www.youtube.com/results?search_query="],
+["Bing","https://www.bing.com/search?q="],
+["Google Notícias","https://news.google.com/search?q="],
+["Wikipedia","https://pt.wikipedia.org/w/index.php?search="],
+["Reddit","https://www.reddit.com/search/?q="],
+["Pinterest","https://www.pinterest.com/search/pins/?q="],
+["TikTok","https://www.tiktok.com/search?q="],
+["Mercado Livre","https://lista.mercadolivre.com.br/"],
+["GitHub","https://github.com/search?type=repositories&q="]
+];
+
+const cards=[];
+directSites.forEach((s,i)=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"direct",adult:s[2]==="Adulto"}));
+Object.entries(topicGroups).forEach(([cat,topics])=>topics.forEach(topic=>engines.forEach(([engine,base])=>{
+  const q=encodeURIComponent(topic);
+  const url=engine==="Mercado Livre"?base+encodeURIComponent(topic).replace(/%20/g,"-"):base+q;
+  cards.push({name:engine+" • "+topic,ico:"↗",cat:cat,desc:"Pesquisa organizada: "+topic,url,kind:"search",source:engine});
+})));
+aiSites.forEach(s=>cards.push({name:s[0],ico:s[1],cat:"IA",desc:s[3],url:s[4],kind:"ai",cling:!!s[5]}));
+
+const categories=["Todos","Pesquisa","IA","Vídeos","Imagens & design","Redes sociais","Comunicação","Entretenimento","Música & áudio","Notícias","Compras","Educação & trabalho","Negócios","Serviços & mapas","Adulto"];
+const pageSize=48;
+let active="Todos",page=1,query="";
+
+function norm(v){return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()}
+function matches(c){
+ const q=norm(query);
+ const byCat=active==="Todos" || (active==="Pesquisa" ? c.kind==="search" : c.cat===active);
+ return byCat && (!q || norm(c.name+" "+c.desc+" "+c.cat+" "+(c.source||"")).includes(q));
+}
+function filtered(){return cards.filter(matches)}
+function renderChips(){
+ const el=document.getElementById("chips");el.innerHTML="";
+ categories.forEach(c=>{const b=document.createElement("button");b.className="chip"+(c===active?" active":"");b.textContent=c;b.onclick=()=>{active=c;page=1;render()};el.appendChild(b)});
+}
+function openCard(c){
+ if(c.adult && !confirm("Conteúdo adulto 18+. Confirma que você tem 18 anos ou mais?")) return;
+ location.href=c.url;
+}
+function render(){
+ renderChips();
+ const list=filtered(),pages=Math.max(1,Math.ceil(list.length/pageSize)); if(page>pages)page=pages;
+ const start=(page-1)*pageSize,show=list.slice(start,start+pageSize);
+ document.getElementById("count").textContent=list.length+" resultado(s)";
+ document.getElementById("title").textContent=active==="Todos"?"Todos os conteúdos":active;
+ const grid=document.getElementById("grid");grid.innerHTML="";
+ show.forEach(c=>{const a=document.createElement("a");a.href=c.url;a.className="card"+(c.kind==="ai"?" ai":"")+(c.cling?" cling":"");a.onclick=e=>{e.preventDefault();openCard(c)};
+ a.innerHTML='<div class="top"><div class="ico">'+c.ico+'</div><div class="nm">'+c.name+(c.cling?'<span class="tag">NOVO</span>':'')+'</div></div><p class="desc">'+c.desc+'</p><div class="src">'+(c.kind==="search"?"Pesquisa • "+(c.source||""):c.cat)+'</div>';
+ grid.appendChild(a)});
+ document.getElementById("empty").style.display=list.length?"none":"block";
+ document.getElementById("pager").style.display=list.length>pageSize?"flex":"none";
+ document.getElementById("pageInfo").textContent="Página "+page+" de "+pages;
+ document.getElementById("prev").disabled=page<=1;document.getElementById("next").disabled=page>=pages;
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function prevPage(){if(page>1){page--;render()}}
+function nextPage(){const pages=Math.ceil(filtered().length/pageSize);if(page<pages){page++;render()}}
+function clearSearch(){document.getElementById("q").value="";query="";page=1;render()}
+function openCustom(){let v=document.getElementById("u").value.trim();if(!v)return;if(!/^https?:\/\//i.test(v))v="https://"+v;location.href=v}
+document.getElementById("q").addEventListener("input",e=>{query=e.target.value;page=1;render()});
+document.getElementById("u").addEventListener("keydown",e=>{if(e.key==="Enter")openCustom()});
+render();
 </script>
 </body>
 </html>
