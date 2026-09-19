@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>JSTech Privado — IA de Vídeo</title>
+<style>
+:root{color-scheme:dark;--bg:#06101f;--p:#0d1b2d;--l:#233751;--t:#f8fafc;--m:#9eb1c9;--a:#55d8ff;--b:#8668ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% -10%,#173957 0,transparent 38%),linear-gradient(#071321,#040914);color:var(--t);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.w{max-width:980px;margin:auto;padding:20px 14px 44px}.brand{display:flex;gap:12px;align-items:center;margin-bottom:16px}.logo{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-weight:900;background:linear-gradient(135deg,var(--a),var(--b));color:#04101c}.brand h1{font-size:21px;margin:0}.brand p{font-size:12px;color:var(--m);margin:3px 0}.hero{background:linear-gradient(145deg,#10243a,#0a1628);border:1px solid var(--l);border-radius:20px;padding:18px}.hero h2{font-size:23px;margin:0 0 7px}.hero p{color:var(--m);margin:0;line-height:1.45}.row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}input{width:100%;border:1px solid #2b4568;background:#07111f;color:white;border-radius:12px;padding:13px;font-size:15px;outline:none}button{border:0;border-radius:12px;padding:0 16px;min-height:46px;font-weight:800;background:linear-gradient(135deg,var(--a),#8090ff);color:#04101c}.custom{margin-top:11px;padding:11px;border:1px dashed #315071;border-radius:14px}.custom b{font-size:13px}.custom small{display:block;color:var(--m);margin-top:7px}.head{display:flex;justify-content:space-between;align-items:end;margin:24px 3px 10px}.head h3{margin:0;font-size:17px}.head span{font-size:11px;color:var(--m)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{display:block;text-decoration:none;color:inherit;background:linear-gradient(155deg,#10233a,#091525);border:1px solid var(--l);border-radius:15px;padding:13px;min-height:105px}.card:active{transform:scale(.98)}.card.featured{border-color:#49cbea;background:linear-gradient(145deg,#12324c,#121b34)}.top{display:flex;align-items:center;gap:9px}.ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#162d47;border:1px solid #315071;color:#91eaff;font-weight:900}.name{font-weight:850;font-size:14px}.tag{font-size:9px;color:#8df0bd;border:1px solid #27674f;background:#0d2d25;border-radius:99px;padding:2px 6px;margin-left:5px}.desc{font-size:11px;line-height:1.35;color:var(--m);margin:9px 0 0}.empty{display:none;text-align:center;color:var(--m);padding:28px}.foot{margin-top:28px;color:#7f94ad;font-size:10px;line-height:1.5;text-align:center}@media(min-width:720px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.w{padding:28px 22px 60px}}@media(max-width:390px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="brand"><div class="logo">JS</div><div><h1>JSTech Privado</h1><p>Navegador privado + central de IA de vídeo</p></div></div>
+<section class="hero"><h2>Crie vídeos com IA em um só lugar</h2><p>Escolha um serviço. Ele abre dentro do próprio JSTech Privado. Use a busca para achar rápido.</p><div class="row"><input id="q" type="search" placeholder="Buscar: Kling, Runway, avatar, anúncios..."><button onclick="clearQ()">Limpar</button></div><div class="custom"><b>Abrir qualquer site</b><div class="row"><input id="u" inputmode="url" placeholder="Cole um link https://..."><button onclick="openU()">Abrir</button></div><small>Se aparecer uma IA nova amanhã, basta colar o link aqui.</small></div></section>
+<div id="sections"></div><div class="empty" id="empty">Nenhum serviço encontrado. Cole qualquer link no campo acima.</div>
+<div class="foot">JSTech Privado não é afiliado aos serviços listados. Cada site tem regras, planos e disponibilidade próprios. Alguns logins podem bloquear WebView.</div>
+</div>
+<script>
+const groups=[
+["Geradores de vídeo e modelos",[
+["Cling AI","CL","Criador de imagem e vídeo por IA — link enviado por você.","https://cling-ai.com/lp/preview/video/1ngn8qlu?utm_medium=paid&utm_source=fb&utm_id=52605993868997&utm_content=52605993886397&utm_term=52605993872997&utm_campaign=52605993868997","cling ai image video creator",1],
+["Runway","RW","Texto, imagem e vídeo para vídeo e edição generativa.","https://app.runwayml.com/","runway gen cinema text image"],
+["Kling AI","KL","Texto ou imagem para vídeo e recursos cinematográficos.","https://kling.ai/","kling ai video imagem texto cinema"],
+["Hailuo AI","HL","Texto, imagem e referências com modelos MiniMax e outros.","https://hailuoai.video/create","hailuo minimax ai video"],
+["Pika","PK","Vídeo por IA, efeitos e extensão de clipes.","https://pika.art/","pika ai video effects"],
+["Luma Dream Machine","LU","Criação e transformação de vídeos com IA.","https://lumalabs.ai/dream-machine","luma dream machine ray"],
+["PixVerse","PX","Texto e imagem para vídeo, efeitos e personagens.","https://app.pixverse.ai/","pixverse ai video"],
+["Vidu","VD","Vídeo a partir de texto, imagens e referências.","https://www.vidu.com/","vidu ai video"],
+["Google Flow","GF","Criação cinematográfica com IA do Google.","https://labs.google/fx/tools/flow/","google flow veo video"],
+["Gemini","GM","Criação multimodal e recursos de geração de vídeo.","https://gemini.google.com/","gemini google video"],
+["Adobe Firefly","FF","Geração e edição de vídeo com IA.","https://firefly.adobe.com/","adobe firefly video"],
+["Krea","KR","Vários modelos de vídeo em uma só interface.","https://www.krea.ai/features/ai-video-generator","krea ai video veo kling runway"],
+["Higgsfield","HF","Vídeo cinematográfico, efeitos e controle de câmera.","https://higgsfield.ai/","higgsfield cinema effects"],
+["LTX Studio","LTX","Roteiro, storyboard e produção de cenas com IA.","https://ltx.io/studio","ltx studio storyboard film"],
+["Kaiber","KB","Vídeo, música e animações visuais com IA.","https://kaiber.ai/","kaiber ai video music"],
+["Dreamina","DR","Gerador da CapCut com Seedance e outros modelos.","https://dreamina.capcut.com/tools/ai-video-generator","dreamina capcut seedance"],
+["Freepik AI Video","FP","Texto ou imagem para vídeo no ecossistema Freepik.","https://www.freepik.com/ai/video-generator","freepik ai video"],
+["Leonardo AI","LE","Criação visual e recursos de movimento/vídeo.","https://leonardo.ai/","leonardo ai motion video"],
+["Pollo AI","PO","Central de geração com múltiplos modelos e efeitos.","https://pollo.ai/","pollo ai video models"],
+["Haiper","HA","Geração e animação de vídeo por IA.","https://haiper.ai/","haiper ai video"],
+["Moonvalley","MV","Modelos de vídeo generativo para produção criativa.","https://www.moonvalley.com/","moonvalley marey video"],
+["Genmo","GE","Criação de vídeo generativo e experimentação.","https://www.genmo.ai/","genmo ai video"]
+]],
+["Avatares, apresentadores e fala",[
+["HeyGen","HG","Avatares realistas, tradução, voz e roteiro para vídeo.","https://www.heygen.com/","heygen avatar presenter"],
+["Synthesia","SY","Apresentadores de IA, narração e vídeos empresariais.","https://www.synthesia.io/","synthesia avatar"],
+["AI Studios","AS","Avatares e vídeos falados com IA.","https://www.aistudios.com/","ai studios deepbrain avatar"],
+["D-ID","DI","Fotos falantes, avatares e agentes em vídeo.","https://www.d-id.com/","d-id talking avatar"],
+["Colossyan","CO","Apresentadores de IA para cursos e empresas.","https://www.colossyan.com/","colossyan avatar training"],
+["Elai","EL","Texto para vídeo com avatares e apresentações.","https://elai.io/","elai avatar presenter"],
+["Vidnoz","VZ","Avatares, voz, templates e geração de vídeo.","https://www.vidnoz.com/","vidnoz avatar video"],
+["AKOOL","AK","Avatares e ferramentas criativas de vídeo com IA.","https://akool.com/","akool avatar video"],
+["Captions","CA","Criação, edição e avatares para vídeos sociais.","https://www.captions.ai/","captions avatar video"]
+]],
+["Vídeos completos, anúncios e edição com IA",[
+["CapCut","CC","Editor e gerador com várias ferramentas de IA.","https://www.capcut.com/","capcut ai video editor"],
+["VEED","VE","Texto, imagem e vídeo para vídeo com edição online.","https://www.veed.io/tools/ai-video","veed ai video"],
+["InVideo AI","IV","Ideias e roteiros transformados em vídeos completos.","https://invideo.io/ai/","invideo ai script"],
+["Canva AI Video","CV","Vídeo com IA integrado ao editor Canva.","https://www.canva.com/ai-video-generator/","canva ai video"],
+["Fliki","FL","Texto, blog e roteiro para vídeo com narração.","https://fliki.ai/","fliki text video voice"],
+["Pictory","PI","Roteiros e conteúdos longos transformados em vídeo.","https://pictory.ai/","pictory script video"],
+["Renderforest","RF","Vídeos por IA, templates e produção online.","https://www.renderforest.com/ai-video-generator","renderforest ai video"],
+["FlexClip","FX","Gerador e editor online com recursos de IA.","https://www.flexclip.com/tools/ai-video-generator.html","flexclip ai video"],
+["Animaker","AN","Vídeos animados e criação assistida por IA.","https://www.animaker.com/","animaker ai animation"],
+["Steve AI","ST","Texto, voz e roteiro para vídeos e animações.","https://www.steve.ai/","steve ai text video"],
+["Creatify","CR","Anúncios e vídeos de produto a partir de links e roteiros.","https://creatify.ai/","creatify ads product"],
+["Descript","DS","Edição de vídeo por texto, voz e automações de IA.","https://www.descript.com/","descript video editor"],
+["OpusClip","OP","Transforma vídeos longos em cortes curtos.","https://www.opus.pro/","opusclip shorts"],
+["Filmora AI","FM","Gerador e editor com ferramentas de IA.","https://filmora.wondershare.com/ai-video-generator.html","filmora ai video"],
+["Media.io","MI","Ferramentas online para gerar e editar vídeo.","https://www.media.io/ai-video-generator.html","media io ai video"],
+["Fotor AI Video","FO","Texto e imagem para vídeo dentro do Fotor.","https://www.fotor.com/ai-video-generator/","fotor ai video"]
+]]
+];
+const root=document.getElementById("sections"),cards=[];
+groups.forEach(g=>{const h=document.createElement("div");h.className="head";h.innerHTML="<h3>"+g[0]+"</h3><span>"+g[1].length+" serviços</span>";root.appendChild(h);const grid=document.createElement("div");grid.className="grid";g[1].forEach(x=>{const a=document.createElement("a");a.href=x[3];a.className="card"+(x[5]?" featured":"");a.dataset.k=(x[0]+" "+x[2]+" "+x[4]).toLowerCase();a.innerHTML='<div class="top"><div class="ico">'+x[1]+'</div><div class="name">'+x[0]+(x[5]?'<span class="tag">Seu link</span>':'')+'</div></div><p class="desc">'+x[2]+'</p>';grid.appendChild(a);cards.push(a)});root.appendChild(grid)});
+const q=document.getElementById("q");function filter(){const s=q.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");let n=0;cards.forEach(c=>{const k=c.dataset.k.normalize("NFD").replace(/[\u0300-\u036f]/g,"");const ok=!s||k.includes(s);c.style.display=ok?"block":"none";if(ok)n++});document.getElementById("empty").style.display=n?"none":"block"}function clearQ(){q.value="";filter();q.focus()}function openU(){let v=document.getElementById("u").value.trim();if(!v)return;if(!/^https?:\/\//i.test(v))v="https://"+v;location.href=v}q.addEventListener("input",filter);document.getElementById("u").addEventListener("keydown",e=>{if(e.key==="Enter")openU()});
+</script>
+</body>
+</html>
