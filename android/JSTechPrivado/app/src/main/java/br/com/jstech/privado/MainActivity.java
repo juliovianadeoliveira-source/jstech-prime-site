@@ -271,12 +271,12 @@ public class MainActivity extends Activity {
                 String notes = object.optString("notes", "Nova versão disponível.");
 
                 runOnUiThread(() -> {
-                    if (remoteCode > BuildConfig.VERSION_CODE && !apkUrl.isEmpty()) {
+                    if (remoteCode > getCurrentVersionCode() && !apkUrl.isEmpty()) {
                         showUpdateDialog(remoteName, notes, apkUrl, sha256);
                     } else if (manual) {
                         Toast.makeText(
                                 MainActivity.this,
-                                "Você já está na versão mais recente (" + BuildConfig.VERSION_NAME + ").",
+                                "Você já está na versão mais recente (" + getCurrentVersionName() + ").",
                                 Toast.LENGTH_LONG
                         ).show();
                     }
@@ -559,6 +559,26 @@ public class MainActivity extends Activity {
         CookieManager.getInstance().removeAllCookies(null);
         CookieManager.getInstance().flush();
         super.onDestroy();
+    }
+
+
+    private long getCurrentVersionCode() {
+        try {
+            android.content.pm.PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) return info.getLongVersionCode();
+            return info.versionCode;
+        } catch (Exception ignored) {
+            return 0L;
+        }
+    }
+
+    private String getCurrentVersionName() {
+        try {
+            android.content.pm.PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return info.versionName == null ? "" : info.versionName;
+        } catch (Exception ignored) {
+            return "";
+        }
     }
 
     private int dp(int value) {
