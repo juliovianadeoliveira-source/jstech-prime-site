@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInstaller;
 import android.graphics.Color;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -42,6 +44,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -53,6 +56,7 @@ public class MainActivity extends Activity {
             "https://raw.githubusercontent.com/juliovianadeoliveira-source/jstech-prime-site/main/updates/version.json";
     private static final String CATALOG_JSON_URL =
             "https://raw.githubusercontent.com/juliovianadeoliveira-source/jstech-prime-site/main/updates/catalog.json";
+    private static final String INSTALL_STATUS_ACTION = "br.com.jstech.privado.INSTALL_STATUS";
 
     private WebView webView;
     private TextView domainView;
@@ -65,6 +69,7 @@ public class MainActivity extends Activity {
     private String pendingUpdateUrl;
     private String pendingUpdateSha256;
     private BroadcastReceiver updateDownloadReceiver;
+    private BroadcastReceiver installStatusReceiver;
     private boolean updateCheckInProgress = false;
     private long lastAutoUpdateCheck = 0L;
 
@@ -76,6 +81,7 @@ public class MainActivity extends Activity {
         getWindow().setNavigationBarColor(Color.rgb(6, 11, 22));
 
         registerUpdateReceiver();
+        registerInstallStatusReceiver();
         buildInterface();
         configurePrivateWebView();
         startFreshPrivateSession();
@@ -506,17 +512,125 @@ public class MainActivity extends Activity {
                 }
             }
 
-            Intent install = new Intent(Intent.ACTION_VIEW);
-            install.setDataAndType(apkUri, "application/vnd.android.package-archive");
-            install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(install);
+            installWithAndroidPackageInstaller(apkUri);
         } catch (Exception error) {
             Toast.makeText(
                     this,
-                    "Não foi possível abrir o instalador da atualização.",
+                    "Não foi possível iniciar o instalador do Android.",
                     Toast.LENGTH_LONG
             ).show();
+        }
+    }
+
+    private void installWithAndroidPackageInstaller(Uri apkUri) throws Exception {
+        PackageInstaller packageInstaller = getPackageManager().getPackageInstaller();
+        PackageInstaller.SessionParams params =
+                new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
+        params.setAppPackageName(getPackageName());
+
+        int sessionId = packageInstaller.createSession(params);
+        PackageInstaller.Session session = packageInstaller.openSession(sessionId);
+
+        try {
+            try (InputStream input = getContentResolver().openInputStream(apkUri);
+                 OutputStream output = session.openWrite("JSTech-Privado-update.apk", 0, -1)) {
+                if (input == null) throw new Exception("APK indisponível");
+
+                byte[] buffer = new byte[8192];
+                int read;
+                while ((read = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                }
+                session.fsync(output);
+            }
+
+            Intent statusIntent = new Intent(INSTALL_STATUS_ACTION);
+            statusIntent.setPackage(getPackageName());
+
+            int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                flags |= PendingIntent.FLAG_MUTABLE;
+            }
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    this,
+                    sessionId,
+                    statusIntent,
+                    flags
+            );
+
+            session.commit(pendingIntent.getIntentSender());
+            Toast.makeText(
+                    this,
+                    "Atualização pronta. Confirme no instalador do Android.",
+                    Toast.LENGTH_LONG
+            ).show();
+        } finally {
+            try {
+                session.close();
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    private void registerInstallStatusReceiver() {
+        installStatusReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int status = intent.getIntExtra(
+                        PackageInstaller.EXTRA_STATUS,
+                        PackageInstaller.STATUS_FAILURE
+                );
+
+                if (status == PackageInstaller.STATUS_PENDING_USER_ACTION) {
+                    Intent confirmationIntent;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        confirmationIntent = intent.getParcelableExtra(
+                                Intent.EXTRA_INTENT,
+                                Intent.class
+                        );
+                    } else {
+                        confirmationIntent = intent.getParcelableExtra(Intent.EXTRA_INTENT);
+                    }
+
+                    if (confirmationIntent != null) {
+                        confirmationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(confirmationIntent);
+                    } else {
+                        Toast.makeText(
+                                MainActivity.this,
+                                "O Android não abriu a confirmação da atualização.",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                    return;
+                }
+
+                if (status == PackageInstaller.STATUS_SUCCESS) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            "JSTech Privado atualizado com sucesso.",
+                            Toast.LENGTH_LONG
+                    ).show();
+                    return;
+                }
+
+                String message = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
+                Toast.makeText(
+                        MainActivity.this,
+                        message == null
+                                ? "Falha ao instalar a atualização."
+                                : "Falha ao instalar: " + message,
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        };
+
+        IntentFilter filter = new IntentFilter(INSTALL_STATUS_ACTION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(installStatusReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(installStatusReceiver, filter);
         }
     }
 
@@ -667,6 +781,11 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         try {
             if (updateDownloadReceiver != null) unregisterReceiver(updateDownloadReceiver);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            if (installStatusReceiver != null) unregisterReceiver(installStatusReceiver);
         } catch (Exception ignored) {
         }
 
