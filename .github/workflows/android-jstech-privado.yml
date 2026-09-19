@@ -44,16 +44,16 @@ jobs:
       - name: Prepare release files
         run: |
           mkdir -p output
-          cp android/JSTechPrivado/app/build/outputs/apk/release/app-release-unsigned.apk output/JSTech-Privado-1.4.1-unsigned.apk
+          cp android/JSTechPrivado/app/build/outputs/apk/release/app-release-unsigned.apk output/JSTech-Privado-1.4.2-unsigned.apk
           cp "$ANDROID_HOME/build-tools/35.0.0/lib/apksigner.jar" output/apksigner.jar
-          sha256sum output/JSTech-Privado-1.4.1-unsigned.apk > output/unsigned-sha256.txt
+          sha256sum output/JSTech-Privado-1.4.2-unsigned.apk > output/unsigned-sha256.txt
 
       - name: Upload release build
         uses: actions/upload-artifact@v4
         with:
-          name: JSTech-Privado-1.4.1-Unsigned
+          name: JSTech-Privado-1.4.2-Unsigned
           path: |
-            output/JSTech-Privado-1.4.1-unsigned.apk
+            output/JSTech-Privado-1.4.2-unsigned.apk
             output/apksigner.jar
             output/unsigned-sha256.txt
           retention-days: 30
