@@ -1,0 +1,54 @@
+name: Build JSTech Privado Android
+
+on:
+  push:
+    branches:
+      - jstech-privado-android-v1.1
+    paths:
+      - 'android/JSTechPrivado/**'
+      - '.github/workflows/android-jstech-privado.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install Android 35 packages
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+
+      - name: Set up Gradle 8.9
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Build debug APK
+        working-directory: android/JSTechPrivado
+        run: gradle --no-daemon assembleDebug
+
+      - name: Copy installer
+        run: |
+          mkdir -p output
+          cp android/JSTechPrivado/app/build/outputs/apk/debug/app-debug.apk output/JSTech-Privado-1.1.0-teste.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: JSTech-Privado-1.1.0
+          path: output/JSTech-Privado-1.1.0-teste.apk
+          retention-days: 30
