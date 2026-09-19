@@ -1,7 +1,7 @@
 {
-  "versionCode": 22,
-  "versionName": "1.4.8",
+  "versionCode": 23,
+  "versionName": "1.4.9",
   "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
-  "sha256": "8ac8ea67f31b58c10e4e3b41c3cc9eabf2381d849cd8c2fa93bc929723c33580",
-  "notes": "Modo privado sem histórico interno, cache ou preenchimento salvo; limpeza ao fechar; aba Animes com catálogo mundial; mantém envio de fotos, OnlyFans e catálogo 18+."
+  "sha256": "cdf87f46739fa8f13980f36397fad08183aa5ae62963346772b97af30ed3539f",
+  "notes": "Lista completa com 77 entradas de IA, moda, anime e vídeo. Corrigido o aviso automático de novas atualizações."
 }
