@@ -22,8 +22,8 @@
   <section class="hero">
     <h2>Tudo em um só lugar</h2>
     <p>Recuperei a central completa e acrescentei as novas ferramentas de IA sem remover o conteúdo antigo.</p>
-    <div class="stats"><div class="stat"><strong>1.156</strong><span>CONTEÚDOS ORIGINAIS</span></div><div class="stat"><strong>47</strong><span>NOVAS IAs</span></div><div class="stat"><strong>1.203</strong><span>TOTAL</span></div></div>
-    <div class="searchrow"><input id="q" type="search" placeholder="Pesquisar em 1.203 itens..."><button onclick="clearSearch()">Limpar</button></div>
+    <div class="stats"><div class="stat"><strong>1.156</strong><span>CONTEÚDOS ORIGINAIS</span></div><div class="stat"><strong>53</strong><span>NOVAS FERRAMENTAS</span></div><div class="stat"><strong>1.209</strong><span>TOTAL</span></div></div>
+    <div class="searchrow"><input id="q" type="search" placeholder="Pesquisar em 1.209 itens..."><button onclick="clearSearch()">Limpar</button></div>
     <div class="custom"><b>Abrir qualquer site</b><div class="searchrow"><input id="u" inputmode="url" placeholder="Cole um endereço https://..."><button onclick="openCustom()">Abrir</button></div><small>Qualquer site novo também pode ser aberto dentro do JSTech Privado.</small></div>
   </section>
   <div class="chips" id="chips"></div>
@@ -143,6 +143,15 @@ const aiSites = [
 ["Fotor AI Video","FO","IA","Texto e imagem para vídeo","https://www.fotor.com/ai-video-generator/"]
 ];
 
+const styleTools = [
+["insMind Provador Virtual","IM","Moda & roupa","Provador virtual de roupas com IA","https://www.insmind.com/pt-br/ferramentas-imagem/provador-virtual-roupas"],
+["insMind Trocador de Roupas","IM","Moda & roupa","Troque e reestilize roupas em fotos","https://www.insmind.com/pt-br/ferramentas-imagem/trocador-de-roupas-ai"],
+["LightX Trocador de Roupas","LX","Moda & roupa","Mude looks usando estilos e prompts","https://www.lightxeditor.com/photo-editing/ai-clothes-changer/"],
+["LightX Provador Virtual","LX","Moda & roupa","Experimente roupas virtualmente em fotos","https://www.lightxeditor.com/pt-br/photo-editing/experimente-virtualmente-roupas/"],
+["Media.io Trocador de Roupas","MI","Moda & roupa","Troca de roupas e visual com IA","https://www.media.io/ai/br/ai-tools/clothes-transfer"],
+["Adobe Firefly","FF","Moda & roupa","Edite e substitua áreas da imagem com preenchimento generativo","https://firefly.adobe.com/"]
+];
+
 const topicGroups = {
 "Tecnologia":["Android","Samsung","iPhone","Windows","Linux","Redes de computadores","Wi-Fi","Starlink","Segurança digital","Programação"],
 "IA":["Inteligência artificial","ChatGPT","Gemini","Claude","Geração de vídeo com IA","Geração de imagem com IA","Automação com IA","Prompt engineering","Agentes de IA","Voz com IA"],
@@ -178,8 +187,9 @@ Object.entries(topicGroups).forEach(([cat,topics])=>topics.forEach(topic=>engine
   cards.push({name:engine+" • "+topic,ico:"↗",cat:cat,desc:"Pesquisa organizada: "+topic,url,kind:"search",source:engine});
 })));
 aiSites.forEach(s=>cards.push({name:s[0],ico:s[1],cat:"IA",desc:s[3],url:s[4],kind:"ai",cling:!!s[5]}));
+styleTools.forEach(s=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"ai"}));
 
-const categories=["Todos","Pesquisa","IA","Vídeos","Imagens & design","Redes sociais","Comunicação","Entretenimento","Música & áudio","Notícias","Compras","Educação & trabalho","Negócios","Serviços & mapas","Adulto"];
+const categories=["Todos","Pesquisa","IA","Moda & roupa","Vídeos","Imagens & design","Redes sociais","Comunicação","Entretenimento","Música & áudio","Notícias","Compras","Educação & trabalho","Negócios","Serviços & mapas","Adulto"];
 const pageSize=48;
 let active="Todos",page=1,query="";
 
