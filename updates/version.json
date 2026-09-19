@@ -1,7 +1,7 @@
 {
   "versionCode": 11,
   "versionName": "1.3.0",
-  "apkUrl": "",
-  "sha256": "",
-  "notes": "Atualizador automático ativado no JSTech Privado."
+  "apkUrl": "https://raw.githubusercontent.com/juliovianadeoliveira-source/jstech-prime-site/main/updates/JSTech-Privado-latest.apk",
+  "sha256": "e7343aeaec99470549bae9066c4d9b0168947fe5a1c5eba9ed0eb35558867810",
+  "notes": "Atualizador automático ativado. As próximas versões podem ser instaladas por cima do mesmo aplicativo."
 }
