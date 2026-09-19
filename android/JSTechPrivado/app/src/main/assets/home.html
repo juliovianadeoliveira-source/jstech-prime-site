@@ -22,8 +22,8 @@
   <section class="hero">
     <h2>Tudo em um só lugar</h2>
     <p>Recuperei a central completa e acrescentei as novas ferramentas de IA sem remover o conteúdo antigo.</p>
-    <div class="stats"><div class="stat"><strong>1.156</strong><span>CONTEÚDOS ORIGINAIS</span></div><div class="stat"><strong>57</strong><span>NOVAS FERRAMENTAS</span></div><div class="stat"><strong>1.213</strong><span>TOTAL</span></div></div>
-    <div class="searchrow"><input id="q" type="search" placeholder="Pesquisar em 1.213 itens..."><button onclick="clearSearch()">Limpar</button></div>
+    <div class="stats"><div class="stat"><strong>1.156</strong><span>CONTEÚDOS ORIGINAIS</span></div><div class="stat"><strong id="newCount">57</strong><span>NOVAS FERRAMENTAS</span></div><div class="stat"><strong id="totalCount">1.213</strong><span>TOTAL</span></div></div>
+    <div class="searchrow"><input id="q" type="search" placeholder="Pesquisar em todos os itens..."><button onclick="clearSearch()">Limpar</button></div>
     <div class="custom"><b>Abrir qualquer site</b><div class="searchrow"><input id="u" inputmode="url" placeholder="Cole um endereço https://..."><button onclick="openCustom()">Abrir</button></div><small>Qualquer site novo também pode ser aberto dentro do JSTech Privado.</small></div>
   </section>
   <div class="chips" id="chips"></div>
@@ -204,12 +204,42 @@ function matches(c){
  return byCat && (!q || norm(c.name+" "+c.desc+" "+c.cat+" "+(c.source||"")).includes(q));
 }
 function filtered(){return cards.filter(matches)}
+function mergeRemoteCatalog(items){
+ if(!Array.isArray(items))return;
+ const seen=new Set(cards.map(c=>String(c.url||"").replace(/\/$/,"").toLowerCase()));
+ let added=0;
+ items.forEach(i=>{
+   if(!i||!i.name||!i.url)return;
+   const key=String(i.url).replace(/\/$/,"").toLowerCase();
+   if(seen.has(key))return;
+   seen.add(key);
+   cards.push({
+     name:i.name,
+     ico:i.ico||"18+",
+     cat:i.cat||"Adulto",
+     desc:i.desc||"Conteúdo adulto 18+ — exige confirmação de maioridade",
+     url:i.url,
+     kind:i.kind||"direct",
+     adult:i.adult===true || i.cat==="Adulto",
+     source:i.source||""
+   });
+   added++;
+ });
+ const total=document.getElementById("totalCount");
+ const newer=document.getElementById("newCount");
+ if(total)total.textContent=cards.length.toLocaleString("pt-BR");
+ if(newer)newer.textContent=(cards.length-1156).toLocaleString("pt-BR");
+ const q=document.getElementById("q");
+ if(q)q.placeholder="Pesquisar em "+cards.length.toLocaleString("pt-BR")+" itens...";
+ page=1;
+ render();
+}
 function renderChips(){
  const el=document.getElementById("chips");el.innerHTML="";
  categories.forEach(c=>{const b=document.createElement("button");b.className="chip"+(c===active?" active":"");b.textContent=c;b.onclick=()=>{active=c;page=1;render()};el.appendChild(b)});
 }
 function openCard(c){
- if(c.adult && !confirm("Conteúdo adulto 18+. Confirma que você tem 18 anos ou mais?")) return;
+ if((c.adult || c.cat==="Adulto") && !confirm("Conteúdo adulto 18+. Confirma que você tem 18 anos ou mais?")) return;
  location.href=c.url;
 }
 function logoOrigin(c){
