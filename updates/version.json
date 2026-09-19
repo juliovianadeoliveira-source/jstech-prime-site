@@ -1,7 +1,7 @@
 {
-  "versionCode": 24,
-  "versionName": "1.5.0",
+  "versionCode": 25,
+  "versionName": "1.5.1",
   "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
-  "sha256": "4d228185432e426af8b28f8835690d3142b88c3b0c2ff6abebe1db8e7a4dd6b2",
-  "notes": "Restaurada a barra fixa com Voltar, Avançar, Início, Recarregar e Atualizar. Mantida a lista completa de ferramentas."
+  "sha256": "77fea8b791139dd60b8cd29b7cdc53392f22279103076143e0e16705d87d747f",
+  "notes": "Atualização baixada dentro do JSTech, sem abrir Google ou navegador externo. Mantida a barra com Voltar, Avançar, Início, Recarregar e Atualizar."
 }
