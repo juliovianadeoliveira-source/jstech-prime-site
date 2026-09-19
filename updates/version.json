@@ -3,5 +3,5 @@
   "versionName": "1.4.1",
   "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk",
   "sha256": "7a81f5d2fef8f92c2b4e40bbd519b17671bc082bcc8ad33ff51538064c77bc0c",
-  "notes": "Atualização 1.4.1: instalação interna sem ES File Explorer ou acesso à pasta Android/data; SuperLive Web Online, Yam Live Web e Anime AI Chat adicionados."
+  "notes": "Atualizador corrigido: baixa dentro do JSTech Privado e envia direto ao instalador do Android, sem ES File Explorer e sem acessar Android/data. Inclui SuperLive Web Online, Yam Live Web e Anime AI Chat."
 }
