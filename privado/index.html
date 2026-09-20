@@ -24,8 +24,6 @@
 <style>
 .anime-cover{width:40px;height:54px;object-fit:cover;border-radius:8px}
 .privacy-note{margin:10px 0;padding:10px;border:1px solid #24516f;border-radius:12px;background:#081928;color:#9fdcff;font-size:10px}
-.install-tip{position:fixed;left:12px;right:12px;bottom:12px;z-index:30;padding:12px;border:1px solid #2f6f99;border-radius:14px;background:#071523ee;color:#fff;text-align:center;font-size:11px;box-shadow:0 10px 35px #0009}
-.install-tip button{min-height:34px;margin-left:8px;padding:0 12px}
 </style>
 </head>
 <body>
@@ -381,7 +379,5 @@ if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
 window.addEventListener("pageshow",()=>{try{sessionStorage.clear()}catch(e){}});
 render();
 </script>
-<div id="installTip" class="install-tip">No iPhone: toque em Compartilhar e depois “Adicionar à Tela de Início”. <button onclick="this.parentElement.remove()">OK</button></div>
-<script>if(window.matchMedia("(display-mode: standalone)").matches||navigator.standalone)document.getElementById("installTip")?.remove();</script>
 </body>
 </html>
