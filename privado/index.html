@@ -14,6 +14,10 @@
 .chips{display:flex;gap:7px;overflow:auto;padding:15px 1px 8px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chip{white-space:nowrap;min-height:36px;padding:0 12px;background:#0c1929;color:#bed0e4;border:1px solid #223b59;font-size:11px}.chip.active{background:linear-gradient(135deg,#168bea,#6955f4);color:white;border-color:#4da8ff}
 .head{display:flex;justify-content:space-between;align-items:end;margin:13px 2px 9px}.head h3{margin:0;font-size:16px}.head span{font-size:10px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{display:block;text-decoration:none;color:inherit;padding:12px;border-radius:15px;background:linear-gradient(150deg,#0e2035,#081321);border:1px solid var(--line);min-height:103px}.card:active{transform:scale(.98)}.card.ai{border-color:#305684}.card.cling{border-color:#48cfff;box-shadow:inset 0 0 22px #1b86c926}.top{display:flex;gap:9px;align-items:center}.ico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:#f7f9fc;border:1px solid #315275;color:#15314c;font-weight:900;font-size:11px;flex:none;overflow:hidden}.ico img{width:30px;height:30px;object-fit:contain;border-radius:7px}.ico span{display:none;width:100%;height:100%;place-items:center;background:#132b46;color:#8fe5ff}.ico.no-logo span{display:grid}.nm{font-weight:850;font-size:13px;line-height:1.2}.tag{display:inline-block;margin-left:5px;font-size:8px;border:1px solid #2f795d;color:#8ff2bd;background:#0e2c24;padding:2px 5px;border-radius:20px}.desc{font-size:10px;line-height:1.35;color:var(--muted);margin:8px 0 0}.src{margin-top:6px;color:#7190ae;font-size:8px}.pager{display:flex;justify-content:center;align-items:center;gap:9px;margin:17px 0}.pager button{min-width:80px}.pager span{font-size:11px;color:var(--muted)}.empty{display:none;text-align:center;padding:35px 10px;color:var(--muted)}.footer{text-align:center;margin-top:25px;font-size:9px;color:#6f849c;line-height:1.45}
 @media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.wrap{padding:24px 18px 60px}}@media(min-width:950px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:370px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr 1fr}.stat strong{font-size:15px}}
+.tor-panel{display:none;margin:10px 0 4px;padding:14px;border-radius:16px;background:linear-gradient(145deg,#161127,#0a1322);border:1px solid #68479a;box-shadow:inset 0 0 28px #452a7033}
+.tor-panel.show{display:block}.tor-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.tor-head b{font-size:14px}.tor-status{font-size:9px;color:#cbb9e8;border:1px solid #5a4379;padding:5px 8px;border-radius:20px}
+.tor-note{margin:8px 0;color:#b7a9c9;font-size:10px;line-height:1.45}.tor-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:9px 0}.tor-actions button{min-height:40px;padding:0 8px;font-size:10px}
+.tor-onion{display:grid;grid-template-columns:1fr auto;gap:7px}.tor-onion input{font-size:12px;min-height:42px}.tor-onion button{min-height:42px}.tor-warn{margin-top:8px;font-size:9px;color:#cba9a9;line-height:1.4}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -37,6 +41,13 @@
     <div class="custom"><b>Abrir qualquer site</b><div class="searchrow"><input id="u" inputmode="url" placeholder="Cole um endereço https://..."><button onclick="openCustom()">Abrir</button></div><small>Qualquer site novo também pode ser aberto dentro do JSTech Privado.</small></div>
   </section>
   <div class="chips" id="chips"></div>
+<div class="tor-panel" id="torPanel">
+<div class="tor-head"><b>🧅 Tor / Dark Web</b><span class="tor-status" id="torStatus">Tor desligado</span></div>
+<div class="tor-note">Área separada para serviços .onion legítimos. O Orbot faz a conexão Tor e os endereços .onion abrem no Tor Browser oficial.</div>
+<div class="tor-actions"><button onclick="torCommand('start')">🧅 Ligar Tor</button><button onclick="torCommand('stop')">Desligar Tor</button><button onclick="torCommand('install-orbot')">Instalar Orbot</button><button onclick="torCommand('install-browser')">Instalar Tor Browser</button></div>
+<div class="tor-onion"><input id="onionUrl" inputmode="url" placeholder="Cole um endereço http://...onion"><button onclick="openOnion()">Abrir .onion</button></div>
+<div class="tor-warn">Use apenas endereços confiáveis. Tor aumenta a privacidade, mas não torna atividades ilegais permitidas e não verifica se um site desconhecido é seguro.</div>
+</div>
   <div class="head"><h3 id="title">Todos os conteúdos</h3><span id="count"></span></div>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty">Nada encontrado. Tente outra pesquisa.</div>
@@ -142,6 +153,13 @@ const directSites = [
 ["xHamster Árabe","XHA","Adulto","Conteúdo adulto com seção árabe — somente 18+","https://ar.xhamster.com/",true],
 ["Pornhub Árabe","PHA","Adulto","Conteúdo adulto com pesquisa árabe — somente 18+","https://www.pornhub.com/video/search?search=arab",true],
 ["XVideos Árabe","XVA","Adulto","Conteúdo adulto com categoria árabe — somente 18+","https://www.xvideos.com/?k=arab",true]
+];
+
+const torSites = [
+["Tor Project • Diretório Onion","TOR","Tor / Dark Web","Lista oficial de serviços .onion mantidos pelo Tor Project","http://xao2lxsmia2edq2n5zxg6uahx6xox2t7bfjw6b5vdzsxi7ezmqob6qid.onion/"],
+["Tor Project • Community","TOR","Tor / Dark Web","Community oficial do Tor Project via onion","http://xmrhfasfg5suueegrnc4gsgyi2tyclcy5oz7f5drnrodmdtob6t2ioyd.onion/"],
+["Tor Project • Onion Services Docs","TOR","Tor / Dark Web","Documentação oficial de Onion Services via onion","http://ttevhjjsjxz6uqqcjkbig5cycd7n7xv7cmd6f5fcvrqaaa7f3bj36wad.onion/"],
+["Tor Project • Blog","TOR","Tor / Dark Web","Blog oficial do Tor Project via onion","http://pzhdfe7jraknpj2qgu5cz2u3i4deuyfwmonvzu5i3nyw4t4bmg7o5pad.onion/"]
 ];
 
 const aiSites = [
@@ -262,6 +280,7 @@ const engines = [
 
 const cards=[];
 directSites.forEach((s,i)=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"direct",adult:s[5]===true || s[2]==="Adulto"}));
+torSites.forEach(s=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"tor",tor:true,source:"Tor Project"}));
 Object.entries(topicGroups).forEach(([cat,topics])=>topics.forEach(topic=>engines.forEach(([engine,base])=>{
   const q=encodeURIComponent(topic);
   const url=engine==="Mercado Livre"?base+encodeURIComponent(topic).replace(/%20/g,"-"):base+q;
@@ -272,7 +291,7 @@ styleTools.forEach(s=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4]
 animeTools.forEach(s=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"ai"}));
 videoAiTools.forEach(s=>cards.push({name:s[0],ico:s[1],cat:s[2],desc:s[3],url:s[4],kind:"ai"}));
 
-const categories=["Todos","Pesquisa","Animes","IA","Anime IA","Vídeo IA","Moda & roupa","Vídeos","Imagens & design","Redes sociais","Comunicação","Entretenimento","Música & áudio","Notícias","Compras","Educação & trabalho","Negócios","Serviços & mapas","Jogos","Adulto"];
+const categories=["Todos","Pesquisa","Animes","IA","Anime IA","Vídeo IA","Moda & roupa","Vídeos","Imagens & design","Redes sociais","Comunicação","Entretenimento","Música & áudio","Notícias","Compras","Educação & trabalho","Negócios","Serviços & mapas","Jogos","Tor / Dark Web","Adulto"];
 const pageSize=48;
 let active="Todos",page=1,query="";
 
