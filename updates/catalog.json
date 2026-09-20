@@ -698,5 +698,14 @@
     "adult": true,
     "source": "Telegram",
     "state": ""
+  },
+  {
+    "name": "Novo link externo",
+    "ico": "↗",
+    "cat": "Links externos",
+    "desc": "Link adicionado ao JSTech Privado",
+    "url": "https://cafifjc.smtracks.com/s/92d3f7b98ed3c?ext_click_id=3pmg8gs3jeoip&subsource=1533750664160848&fbclid=IwVERDUAUc7l5wZG9mBWV4dG4DYWVtAjEwAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHpZ_daM73_show2eQ8ikvZCPh-zusnugiSTUKkmu_Pf-DSXN-0XXWtYWBt2n_aem_68jjgho3dWtIOg8nrzfOSA",
+    "kind": "direct",
+    "source": "Link externo"
   }
 ]
