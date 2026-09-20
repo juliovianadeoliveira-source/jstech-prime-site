@@ -1,7 +1,7 @@
 {
-  "versionCode": 28,
-  "versionName": "1.5.4",
-  "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk?v=1.5.4-officialfix",
-  "sha256": "22defdbd61b58c3dd58dd429aec3339bfdbb02233059561ecdf87936af36778c",
-  "notes": "Correção definitiva de instalação: APK reassinado com o apksigner oficial do Android (v1, v2 e v3), mantendo o certificado original JSTech Privado. Inclui Privê 18+ e priorização por UF sem GPS."
+  "versionCode": 29,
+  "versionName": "1.5.5",
+  "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk?v=1.5.5-tor",
+  "sha256": "6982de93ce14a8ae2f2ae795a089d62cad930f3d54c0e54bb36db27f737b888a",
+  "notes": "Integração Tor segura e atualização de navegação privada."
 }
