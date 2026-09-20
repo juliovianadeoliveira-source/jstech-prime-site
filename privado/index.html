@@ -44,8 +44,8 @@
 <div class="tor-panel" id="torPanel">
 <div class="tor-head"><b>🧅 Tor / Dark Web</b><span class="tor-status" id="torStatus">Tor desligado</span></div>
 <div class="tor-note">Área separada para serviços .onion legítimos. O Orbot faz a conexão Tor e os endereços .onion abrem no Tor Browser oficial.</div>
-<div class="tor-actions"><button onclick="torCommand('start')">🧅 Ligar Tor</button><button onclick="torCommand('stop')">Desligar Tor</button><button onclick="torCommand('install-orbot')">Instalar Orbot</button><button onclick="torCommand('install-browser')">Instalar Tor Browser</button></div>
-<div class="tor-onion"><input id="onionUrl" inputmode="url" placeholder="Cole um endereço http://...onion"><button onclick="openOnion()">Abrir .onion</button></div>
+<div class="tor-actions"><button onclick="location.href='jstech://tor/start'">🧅 Ligar Tor</button><button onclick="location.href='jstech://tor/stop'">Desligar Tor</button><button onclick="location.href='jstech://tor/install-orbot'">Instalar Orbot</button><button onclick="location.href='jstech://tor/install-browser'">Instalar Tor Browser</button></div>
+<div class="tor-note">Os atalhos abaixo são serviços oficiais publicados pelo próprio Tor Project.</div>
 <div class="tor-warn">Use apenas endereços confiáveis. Tor aumenta a privacidade, mas não torna atividades ilegais permitidas e não verifica se um site desconhecido é seguro.</div>
 </div>
   <div class="head"><h3 id="title">Todos os conteúdos</h3><span id="count"></span></div>
@@ -156,10 +156,10 @@ const directSites = [
 ];
 
 const torSites = [
-["Tor Project • Diretório Onion","TOR","Tor / Dark Web","Lista oficial de serviços .onion mantidos pelo Tor Project","http://xao2lxsmia2edq2n5zxg6uahx6xox2t7bfjw6b5vdzsxi7ezmqob6qid.onion/"],
-["Tor Project • Community","TOR","Tor / Dark Web","Community oficial do Tor Project via onion","http://xmrhfasfg5suueegrnc4gsgyi2tyclcy5oz7f5drnrodmdtob6t2ioyd.onion/"],
-["Tor Project • Onion Services Docs","TOR","Tor / Dark Web","Documentação oficial de Onion Services via onion","http://ttevhjjsjxz6uqqcjkbig5cycd7n7xv7cmd6f5fcvrqaaa7f3bj36wad.onion/"],
-["Tor Project • Blog","TOR","Tor / Dark Web","Blog oficial do Tor Project via onion","http://pzhdfe7jraknpj2qgu5cz2u3i4deuyfwmonvzu5i3nyw4t4bmg7o5pad.onion/"]
+["Tor Project • Diretório Onion","TOR","Tor / Dark Web","Lista oficial de serviços .onion mantidos pelo Tor Project","jstech://tor/open/directory"],
+["Tor Project • Community","TOR","Tor / Dark Web","Community oficial do Tor Project via onion","jstech://tor/open/community"],
+["Tor Project • Onion Services Docs","TOR","Tor / Dark Web","Documentação oficial de Onion Services via onion","jstech://tor/open/docs"],
+["Tor Project • Blog","TOR","Tor / Dark Web","Blog oficial do Tor Project via onion","jstech://tor/open/blog"]
 ];
 
 const aiSites = [
@@ -372,6 +372,7 @@ function logoFail(img){
 }
 function render(){
  renderChips();
+ const tp=document.getElementById("torPanel");if(tp)tp.classList.toggle("show",active==="Tor / Dark Web");
  const list=filtered(),pages=Math.max(1,Math.ceil(list.length/pageSize)); if(page>pages)page=pages;
  const start=(page-1)*pageSize,show=list.slice(start,start+pageSize);
  document.getElementById("count").textContent=list.length+" resultado(s)";
