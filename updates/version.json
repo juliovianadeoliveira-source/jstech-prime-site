@@ -1,7 +1,7 @@
 {
-  "versionCode": 26,
-  "versionName": "1.5.2",
-  "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk?v=1.5.2",
-  "sha256": "f3a9c496971badb4c3c7def65dea9ca803e6cfa3e421dae7c75d84ce0559b518",
-  "notes": "Barra fixa no topo em qualquer site: Voltar, Avançar, Início, Recarregar e Atualizar. Removido o aviso sobre pesquisas e favoritos."
+  "versionCode": 27,
+  "versionName": "1.5.3",
+  "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk?v=1.5.3",
+  "sha256": "36809304f6f0b967f277647343a499c8d1a2a24d830ee82a5b70ebf7433c8c58",
+  "notes": "Nova barra profissional fixa no topo, com controles arredondados e atualização destacada. Removida a mensagem de instalação no iPhone."
 }
