@@ -1,7 +1,7 @@
 {
   "versionCode": 28,
   "versionName": "1.5.4",
-  "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk?v=1.5.4",
+  "apkUrl": "https://fvttsguxeocisqvcrbqh.supabase.co/functions/v1/jstech-privado-update-apk?v=1.5.4-installfix2",
   "sha256": "be2f115ea96641df041e05db3368b23caa7bc6d1b1d37f0becfe2f2440835a3d",
   "notes": "Correção de instalação da 1.5.4: assinatura APK v2 adicionada, mantendo o mesmo certificado JSTech Privado. Inclui Privê 18+ e priorização por UF sem GPS."
 }
